@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Left Controller
   - Right Controller
+  - LeftStart
+  - LeftEnd
+  - RightStart
+  - RightEnd
   layers:
   - Default
   - TransparentFX
@@ -16,8 +20,8 @@ TagManager:
   - Player
   - Interactable
   - Boat
-  - 
-  - 
+  - Paddle
+  - Walls
   - 
   - 
   - 

@@ -55,6 +55,14 @@ public class DetectRowing : MonoBehaviour
     // Set water velocity
     public float waterVelocity;
 
+    // Track when the player is grabbing the left paddle
+    public bool grabbingLeftPaddle;
+
+    // Track when the player is grabbing the right paddle
+    public bool grabbingRightPaddle;
+
+    // Set if grabbing the paddles is mandatory
+    public bool mandatoryPaddles;
 
     // Start is called before the first frame update
     void Start()
@@ -100,29 +108,35 @@ public class DetectRowing : MonoBehaviour
     // Call when left start trigger is entered
     public void LeftStart()
     {
-        leftStarted = true;
+        if ((mandatoryPaddles && grabbingLeftPaddle) || !mandatoryPaddles)
+        {
+            leftStarted = true;
 
-        // Wait some time for the user to finish their motion
-        Invoke("ResetLeft", rowFinishDelay);
+            // Wait some time for the user to finish their motion
+            Invoke("ResetLeft", rowFinishDelay);
+        }
     }
 
     // Call when left end trigger is entered
     public void LeftEnd()
     {
-        // If the motion has already started
-        if (leftStarted)
+        if ((mandatoryPaddles && grabbingLeftPaddle) || !mandatoryPaddles)
         {
-            leftFinished = true;
+            // If the motion has already started
+            if (leftStarted)
+            {
+                leftFinished = true;
 
-            // Cancel the previous finish motion timer
-            CancelInvoke("ResetLeft");
+                // Cancel the previous finish motion timer
+                CancelInvoke("ResetLeft");
 
-            Invoke("TurnRight", turnDelay);
+                Invoke("TurnRight", turnDelay);
 
-            // Wait some time for the user
-            // If they don't row with the other hand in time
-            // The motion will reset before they can move forward
-            Invoke("ResetLeft", rowMatchDelay);
+                // Wait some time for the user
+                // If they don't row with the other hand in time
+                // The motion will reset before they can move forward
+                Invoke("ResetLeft", rowMatchDelay);
+            }
         }
     }
 
@@ -134,22 +148,28 @@ public class DetectRowing : MonoBehaviour
 
     public void RightStart()
     {
-        rightStarted = true;
+        if ((mandatoryPaddles && grabbingRightPaddle) || !mandatoryPaddles)
+        {
+            rightStarted = true;
 
-        Invoke("ResetRight", rowMatchDelay);
+            Invoke("ResetRight", rowMatchDelay);
+        }
     }
 
     public void RightEnd()
     {
-        if (rightStarted)
+        if ((mandatoryPaddles && grabbingRightPaddle) || !mandatoryPaddles)
         {
-            rightFinished = true;
+            if (rightStarted)
+            {
+                rightFinished = true;
 
-            CancelInvoke("ResetLeft");
+                CancelInvoke("ResetLeft");
 
-            Invoke("TurnLeft", turnDelay);
+                Invoke("TurnLeft", turnDelay);
 
-            Invoke("ResetRight", rowMatchDelay);
+                Invoke("ResetRight", rowMatchDelay);
+            }
         }
     }
 
@@ -190,5 +210,24 @@ public class DetectRowing : MonoBehaviour
             yield return null;
         }
         transform.rotation = newRotation;
+    }
+    public void GrabLeftPaddle()
+    {
+        grabbingLeftPaddle = true;
+    }
+
+    public void UnGrabLeftPaddle()
+    {
+        grabbingLeftPaddle = false;
+    }
+
+    public void GrabRightPaddle()
+    {
+        grabbingRightPaddle = true;
+    }
+
+    public void UnGrabRightPaddle()
+    {
+        grabbingRightPaddle = false;
     }
 }
