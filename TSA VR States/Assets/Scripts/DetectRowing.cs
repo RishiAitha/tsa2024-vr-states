@@ -14,16 +14,18 @@ public class DetectRowing : MonoBehaviour
     public bool rightFinished;
 
     // Get Rigidbody for motion
-    public Rigidbody rigidbody;
-
-    // Get transform for rotation
-    public Transform transform;
+    public Rigidbody myRB;
 
     // Get Rigidbodies of start and end positions
     public Rigidbody leftStartBody;
     public Rigidbody leftEndBody;
     public Rigidbody rightStartBody;
     public Rigidbody rightEndBody;
+
+    // Get Rigidbodies of boat and paddles
+    public Rigidbody boatBody;
+    public Rigidbody leftPaddleBody;
+    public Rigidbody rightPaddleBody;
 
     // Set the amount of acceleration when rowing
     public float rowAcceleration;
@@ -64,9 +66,11 @@ public class DetectRowing : MonoBehaviour
     // Set if grabbing the paddles is mandatory
     public bool mandatoryPaddles;
 
+
     // Start is called before the first frame update
     void Start()
     {
+        myRB = GetComponent<Rigidbody>();
         // Initialize state variables
         ResetLeft();
         ResetRight();
@@ -79,7 +83,6 @@ public class DetectRowing : MonoBehaviour
         if (currentVelocity > 0)
         {
             currentVelocity -= deceleration * Time.deltaTime;
-            MatchPoints();
         }
 
         if (leftFinished && rightFinished)
@@ -98,11 +101,12 @@ public class DetectRowing : MonoBehaviour
             if (currentVelocity < maxVelocity)
             {
                 currentVelocity += rowAcceleration;
-                MatchPoints();
             }
         }
-        transform.position += transform.forward * Time.deltaTime * currentVelocity;
-        transform.position -= Vector3.forward * Time.deltaTime * waterVelocity;
+        //transform.position += transform.forward * Time.deltaTime * currentVelocity;
+        //transform.position -= Vector3.forward * Time.deltaTime * waterVelocity;
+        myRB.velocity = (transform.forward * currentVelocity) - (Vector3.forward * waterVelocity);
+        MatchVelocities();
     }
 
     // Call when left start trigger is entered
@@ -179,12 +183,15 @@ public class DetectRowing : MonoBehaviour
         rightFinished = false;
     }
 
-    private void MatchPoints()
+    private void MatchVelocities()
     {
-        leftStartBody.velocity = rigidbody.velocity;
-        leftEndBody.velocity = rigidbody.velocity;
-        rightStartBody.velocity = rigidbody.velocity;
-        rightEndBody.velocity = rigidbody.velocity;
+        leftStartBody.velocity = myRB.velocity;
+        leftEndBody.velocity = myRB.velocity;
+        rightStartBody.velocity = myRB.velocity;
+        rightEndBody.velocity = myRB.velocity;
+        boatBody.velocity = myRB.velocity;
+        //leftPaddleBody.velocity = myRB.velocity;
+        //rightPaddleBody.velocity = myRB.velocity;
     }
 
     private void TurnRight()

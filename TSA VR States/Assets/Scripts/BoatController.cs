@@ -9,8 +9,7 @@ public class BoatController : MonoBehaviour
     public float yOffset;
     public float zOffset;
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
         transform.position = new Vector3(origin.position.x + xOffset, origin.position.y + yOffset, origin.position.z + zOffset);
         transform.rotation = origin.rotation;
