@@ -75,6 +75,14 @@ public class DetectRowing : MonoBehaviour
         ResetLeft();
         ResetRight();
         currentVelocity = 0.0f;
+        if (PlayerPrefs.GetInt("MandatoryPaddles") == 1)
+        {
+            mandatoryPaddles = true;
+        }
+        else
+        {
+            mandatoryPaddles = false;
+        }
     }
 
     // Update is called once per frame
@@ -103,8 +111,6 @@ public class DetectRowing : MonoBehaviour
                 currentVelocity += rowAcceleration;
             }
         }
-        //transform.position += transform.forward * Time.deltaTime * currentVelocity;
-        //transform.position -= Vector3.forward * Time.deltaTime * waterVelocity;
         myRB.velocity = (transform.forward * currentVelocity) - (Vector3.forward * waterVelocity);
         MatchVelocities();
     }
