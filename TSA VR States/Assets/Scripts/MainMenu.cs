@@ -12,12 +12,18 @@ public class MainMenu : MonoBehaviour
     public GameObject settingsMenu;
     public GameObject infoCanvas;
     public GameObject playerCamera;
+    public Toggle requireHoldingPaddlesInput;
+    public Toggle hideRowingPointsInput;
+    public Toggle muteMusicInput;
+    public Slider musicVolumeInput;
 
     public void Start()
     {
         startMenu.SetActive(true);
         levelMenu.SetActive(false);
         settingsMenu.SetActive(false);
+
+        InitializeSettings();
     }
 
     public void Update()
@@ -64,19 +70,101 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("Level 3");
     }
 
-    public void RequireOars()
+    private void InitializeSettings()
     {
-        int currentOars = PlayerPrefs.GetInt("RequireOars");
-
-        if (currentOars == 0)
+        if (!PlayerPrefs.HasKey("MandatoryPaddles"))
         {
-            PlayerPrefs.SetInt("RequireOars", 1);
+            PlayerPrefs.SetInt("MandatoryPaddles", 0);
         }
 
-        if (currentOars == 1)
+        if (!PlayerPrefs.HasKey("HidePoints"))
         {
-            PlayerPrefs.SetInt("RequireOars", 0);
+            PlayerPrefs.SetInt("HidePoints", 0);
         }
+
+        if (!PlayerPrefs.HasKey("MuteMusic"))
+        {
+            PlayerPrefs.SetInt("MuteMusic", 0);
+        }
+
+        if (!PlayerPrefs.HasKey("MusicVolume"))
+        {
+            PlayerPrefs.SetFloat("MusicVolume", 0.5f);
+        }
+
+        int mandatoryPaddles = PlayerPrefs.GetInt("MandatoryPaddles");
+        if (mandatoryPaddles == 0)
+        {
+            requireHoldingPaddlesInput.isOn = false;
+        }
+        else
+        {
+            requireHoldingPaddlesInput.isOn = true;
+        }
+
+        int hidePoints = PlayerPrefs.GetInt("HidePoints");
+        if (hidePoints == 0)
+        {
+            hideRowingPointsInput.isOn = false;
+        }
+        else
+        {
+            hideRowingPointsInput.isOn = true;
+        }
+
+        int muteMusic = PlayerPrefs.GetInt("MuteMusic");
+        if (muteMusic == 0)
+        {
+            muteMusicInput.isOn = false;
+        }
+        else
+        {
+            muteMusicInput.isOn = true;
+        }
+
+        float musicVolume = PlayerPrefs.GetFloat("MusicVolume");
+        musicVolumeInput.value = musicVolume;
+    }
+
+    public void ChangeRequirePaddles()
+    {
+        if (requireHoldingPaddlesInput.isOn)
+        {
+            PlayerPrefs.SetInt("MandatoryPaddles", 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("MandatoryPaddles", 0);
+        }
+    }
+
+    public void ChangeHidePoints()
+    {
+        if (hideRowingPointsInput.isOn)
+        {
+            PlayerPrefs.SetInt("HidePoints", 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("HidePoints", 0);
+        }
+    }
+
+    public void ChangeMuteMusic()
+    {
+        if (muteMusicInput.isOn)
+        {
+            PlayerPrefs.SetInt("MuteMusic", 1);
+        }
+        else
+        {
+            PlayerPrefs.SetInt("MuteMusic", 0);
+        }
+    }
+
+    public void ChangeMusicVolume()
+    {
+        PlayerPrefs.SetFloat("MusicVolume", musicVolumeInput.value);
     }
 
     public void QuitButton()
