@@ -170,5 +170,5 @@ public class MainMenu : MonoBehaviour
     public void QuitButton()
     {
         Debug.Log("this should have closed the game");
-    } 
+    }
 }
