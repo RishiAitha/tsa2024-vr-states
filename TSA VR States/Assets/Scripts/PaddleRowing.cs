@@ -10,49 +10,58 @@ public class PaddleRowing : MonoBehaviour
 
     public bool isGrabbed;
 
+    public LevelManager level;
+
     void Start()
     {
+        level = FindObjectOfType<LevelManager>();
         rowScript = FindObjectOfType<DetectRowing>();
     }
 
     void Update()
     {
-        if (isLeft)
+        if (level.gameRunning)
         {
-            isGrabbed = rowScript.grabbingLeftPaddle;
-        }
-        else
-        {
-            isGrabbed = rowScript.grabbingRightPaddle;
-        }
+            if (isLeft)
+            {
+                isGrabbed = rowScript.grabbingLeftPaddle;
+            }
+            else
+            {
+                isGrabbed = rowScript.grabbingRightPaddle;
+            }
+        }    
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (isGrabbed)
+        if (level.gameRunning)
         {
-            if (isLeft)
+            if (isGrabbed)
             {
-                if (other.gameObject.tag == "LeftStart")
+                if (isLeft)
                 {
-                    rowScript.LeftStart();
-                }
+                    if (other.gameObject.tag == "LeftStart")
+                    {
+                        rowScript.LeftStart();
+                    }
 
-                if (other.gameObject.tag == "LeftEnd")
-                {
-                    rowScript.LeftEnd();
+                    if (other.gameObject.tag == "LeftEnd")
+                    {
+                        rowScript.LeftEnd();
+                    }
                 }
-            }
-            else
-            {
-                if (other.gameObject.tag == "RightStart")
+                else
                 {
-                    rowScript.RightStart();
-                }
+                    if (other.gameObject.tag == "RightStart")
+                    {
+                        rowScript.RightStart();
+                    }
 
-                if (other.gameObject.tag == "RightEnd")
-                {
-                    rowScript.RightEnd();
+                    if (other.gameObject.tag == "RightEnd")
+                    {
+                        rowScript.RightEnd();
+                    }
                 }
             }
         }

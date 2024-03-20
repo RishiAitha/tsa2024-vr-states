@@ -66,15 +66,70 @@ public class DetectRowing : MonoBehaviour
     // Set if grabbing the paddles is mandatory
     public bool mandatoryPaddles;
 
+    // Set if row points are visible
+    public bool rowPointsVisible;
+
+    // Set if music should be muted
+    public bool musicMuted;
+
+    // Set desired music volume
+    public float musicVolume;
+
+    // Get level manager script
+    private LevelManager level;
 
     // Start is called before the first frame update
     void Start()
     {
+        level = FindObjectOfType<LevelManager>();
         myRB = GetComponent<Rigidbody>();
         // Initialize state variables
         ResetLeft();
         ResetRight();
         currentVelocity = 0.0f;
+        InitializeSettings();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (level.gameRunning)
+        {
+            if (currentVelocity > 0)
+            {
+                currentVelocity -= deceleration * Time.deltaTime;
+            }
+
+            if (leftFinished && rightFinished)
+            {
+                // Cancel previous match motion timers
+                CancelInvoke("ResetLeft");
+                CancelInvoke("ResetRight");
+
+                // Cancel all turning
+                CancelInvoke("TurnRight");
+                CancelInvoke("TurnLeft");
+
+                ResetLeft();
+                ResetRight();
+
+                if (currentVelocity < maxVelocity)
+                {
+                    currentVelocity += rowAcceleration;
+                }
+
+                StartMotion();
+            }
+        }
+        else
+        {
+            myRB.velocity = Vector3.zero;
+            MatchVelocities();
+        }
+    }
+
+    public void InitializeSettings()
+    {
         if (PlayerPrefs.GetInt("MandatoryPaddles") == 1)
         {
             mandatoryPaddles = true;
@@ -83,34 +138,30 @@ public class DetectRowing : MonoBehaviour
         {
             mandatoryPaddles = false;
         }
+
+        if (PlayerPrefs.GetInt("HidePoints") == 1)
+        {
+            rowPointsVisible = false;
+        }
+        else
+        {
+            rowPointsVisible = true;
+        }
+
+        if (PlayerPrefs.GetInt("MuteMusic") == 1)
+        {
+            musicMuted = true;
+        }
+        else
+        {
+            musicMuted = false;
+        }
+
+        musicVolume = PlayerPrefs.GetFloat("MusicVolume");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void StartMotion()
     {
-        if (currentVelocity > 0)
-        {
-            currentVelocity -= deceleration * Time.deltaTime;
-        }
-
-        if (leftFinished && rightFinished)
-        {
-            // Cancel previous match motion timers
-            CancelInvoke("ResetLeft");
-            CancelInvoke("ResetRight");
-
-            // Cancel all turning
-            CancelInvoke("TurnRight");
-            CancelInvoke("TurnLeft");
-
-            ResetLeft();
-            ResetRight();
-
-            if (currentVelocity < maxVelocity)
-            {
-                currentVelocity += rowAcceleration;
-            }
-        }
         myRB.velocity = (transform.forward * currentVelocity) - (Vector3.forward * waterVelocity);
         MatchVelocities();
     }
@@ -118,75 +169,93 @@ public class DetectRowing : MonoBehaviour
     // Call when left start trigger is entered
     public void LeftStart()
     {
-        if ((mandatoryPaddles && grabbingLeftPaddle) || !mandatoryPaddles)
+        if (level.gameRunning)
         {
-            leftStarted = true;
+            if ((mandatoryPaddles && grabbingLeftPaddle) || !mandatoryPaddles)
+            {
+                leftStarted = true;
 
-            // Wait some time for the user to finish their motion
-            Invoke("ResetLeft", rowFinishDelay);
+                // Wait some time for the user to finish their motion
+                Invoke("ResetLeft", rowFinishDelay);
+            }
         }
     }
 
     // Call when left end trigger is entered
     public void LeftEnd()
     {
-        if ((mandatoryPaddles && grabbingLeftPaddle) || !mandatoryPaddles)
+        if (level.gameRunning)
         {
-            // If the motion has already started
-            if (leftStarted)
+            if ((mandatoryPaddles && grabbingLeftPaddle) || !mandatoryPaddles)
             {
-                leftFinished = true;
+                // If the motion has already started
+                if (leftStarted)
+                {
+                    leftFinished = true;
 
-                // Cancel the previous finish motion timer
-                CancelInvoke("ResetLeft");
+                    // Cancel the previous finish motion timer
+                    CancelInvoke("ResetLeft");
 
-                Invoke("TurnRight", turnDelay);
+                    Invoke("TurnRight", turnDelay);
 
-                // Wait some time for the user
-                // If they don't row with the other hand in time
-                // The motion will reset before they can move forward
-                Invoke("ResetLeft", rowMatchDelay);
+                    // Wait some time for the user
+                    // If they don't row with the other hand in time
+                    // The motion will reset before they can move forward
+                    Invoke("ResetLeft", rowMatchDelay);
+                }
             }
         }
     }
 
     private void ResetLeft()
     {
-        leftStarted = false;
-        leftFinished = false;
+        if (level.gameRunning)
+        {
+            leftStarted = false;
+            leftFinished = false;
+        }
     }
 
     public void RightStart()
     {
-        if ((mandatoryPaddles && grabbingRightPaddle) || !mandatoryPaddles)
+        if (level.gameRunning)
         {
-            rightStarted = true;
-
-            Invoke("ResetRight", rowMatchDelay);
-        }
-    }
-
-    public void RightEnd()
-    {
-        if ((mandatoryPaddles && grabbingRightPaddle) || !mandatoryPaddles)
-        {
-            if (rightStarted)
+            if ((mandatoryPaddles && grabbingRightPaddle) || !mandatoryPaddles)
             {
-                rightFinished = true;
-
-                CancelInvoke("ResetLeft");
-
-                Invoke("TurnLeft", turnDelay);
+                rightStarted = true;
 
                 Invoke("ResetRight", rowMatchDelay);
             }
         }
     }
 
+    public void RightEnd()
+    {
+        if (level.gameRunning)
+        {
+            if ((mandatoryPaddles && grabbingRightPaddle) || !mandatoryPaddles)
+            {
+                if (rightStarted)
+                {
+                    rightFinished = true;
+
+                    CancelInvoke("ResetLeft");
+
+                    Invoke("TurnLeft", turnDelay);
+
+                    Invoke("ResetRight", rowMatchDelay);
+                }
+            }
+        }
+    }
+
     private void ResetRight()
     {
-        rightStarted = false;
-        rightFinished = false;
+        if (level.gameRunning)
+        {
+            rightStarted = false;
+            rightFinished = false;
+        }
     }
 
     private void MatchVelocities()
@@ -202,45 +271,67 @@ public class DetectRowing : MonoBehaviour
 
     private void TurnRight()
     {
-        Quaternion newRotation = Quaternion.Euler(0, transform.eulerAngles.y + rotationAmount, 0);
-        StartCoroutine(RotationLerp(newRotation, rotationTime));
+        if (level.gameRunning)
+        {
+            Quaternion newRotation = Quaternion.Euler(0, transform.eulerAngles.y + rotationAmount, 0);
+            StartCoroutine(RotationLerp(newRotation, rotationTime));
+        }
     }
 
     private void TurnLeft()
     {
-        Quaternion newRotation = Quaternion.Euler(0, transform.eulerAngles.y - rotationAmount, 0);
-        StartCoroutine(RotationLerp(newRotation, rotationTime));
+        if (level.gameRunning)
+        {
+            Quaternion newRotation = Quaternion.Euler(0, transform.eulerAngles.y - rotationAmount, 0);
+            StartCoroutine(RotationLerp(newRotation, rotationTime));
+        }
     }
 
     IEnumerator RotationLerp(Quaternion newRotation, float duration)
     {
-        float time = 0.0f;
-        Quaternion oldRotation = transform.rotation;
-        while (time < duration && !(leftFinished && rightFinished))
+        if (level.gameRunning)
         {
-            transform.rotation = Quaternion.Lerp(oldRotation, newRotation, time / duration);
-            time += Time.deltaTime;
-            yield return null;
+            float time = 0.0f;
+            Quaternion oldRotation = transform.rotation;
+            while (time < duration && !(leftFinished && rightFinished))
+            {
+                transform.rotation = Quaternion.Lerp(oldRotation, newRotation, time / duration);
+                time += Time.deltaTime;
+                yield return null;
+            }
+            transform.rotation = newRotation;
+            StartMotion();
         }
-        transform.rotation = newRotation;
     }
     public void GrabLeftPaddle()
     {
-        grabbingLeftPaddle = true;
+        if (level.gameRunning)
+        {
+            grabbingLeftPaddle = true;
+        }
     }
 
     public void UnGrabLeftPaddle()
     {
-        grabbingLeftPaddle = false;
+        if (level.gameRunning)
+        {
+            grabbingLeftPaddle = false;
+        }
     }
 
     public void GrabRightPaddle()
     {
-        grabbingRightPaddle = true;
+        if (level.gameRunning)
+        {
+            grabbingRightPaddle = true;
+        }
     }
 
     public void UnGrabRightPaddle()
     {
-        grabbingRightPaddle = false;
+        if (level.gameRunning)
+        {
+            grabbingRightPaddle = false;
+        }
     }
 }

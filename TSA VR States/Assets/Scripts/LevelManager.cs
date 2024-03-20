@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class LevelManager : MonoBehaviour
 {
@@ -19,23 +20,48 @@ public class LevelManager : MonoBehaviour
     public GameObject leftGrabRay;
     public GameObject rightGrabRay;
 
+    public bool gameRunning;
+
+    private bool pauseOpen;
+
+    public InputActionProperty menuInteraction;
+
+    private DetectRowing rowScript;
+
     private void Start()
     {
+        rowScript = FindObjectOfType<DetectRowing>();
         levelTimeCounter = levelTime;
         leftGrabRay.SetActive(false);
         rightGrabRay.SetActive(false);
+        gameRunning = true;
+        pauseOpen = false;
     }
 
     private void Update()
     {
-        if (levelTimeCounter > 0f)
+        if (menuInteraction.action.triggered)
         {
-            levelTimeCounter -= Time.deltaTime;
-            timerText.text = levelTimeCounter.ToString();
+            if (pauseOpen)
+            {
+                UnPause();
+            }
+            else
+            {
+                Pause();
+            }
         }
-        else
+        if (gameRunning)
         {
-            GameOver();
+            if (levelTimeCounter > 0f)
+            {
+                levelTimeCounter -= Time.deltaTime;
+                timerText.text = ((int) levelTimeCounter).ToString();
+            }
+            else
+            {
+                GameOver();
+            }
         }
     }
 
@@ -48,8 +74,37 @@ public class LevelManager : MonoBehaviour
         FreezeGame();
     }
 
+    public void Pause()
+    {
+        if (gameRunning)
+        {
+            pauseOpen = true;
+            pauseMenu.SetActive(true);
+            leftGrabRay.SetActive(true);
+            rightGrabRay.SetActive(true);
+            timerDisplay.SetActive(false);
+            FreezeGame();
+        }
+    }
+
+    public void UnPause()
+    {
+        pauseOpen = false;
+        pauseMenu.SetActive(false);
+        leftGrabRay.SetActive(false);
+        rightGrabRay.SetActive(false);
+        timerDisplay.SetActive(true);
+        UnFreezeGame();
+    }
+
     public void FreezeGame()
     {
-        // idk the game needs to stop running/moving here
+        gameRunning = false;
+    }
+
+    public void UnFreezeGame()
+    {
+        gameRunning = true;
+        rowScript.StartMotion();
     }
 }
