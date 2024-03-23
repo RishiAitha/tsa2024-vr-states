@@ -78,6 +78,24 @@ public class DetectRowing : MonoBehaviour
     // Get level manager script
     private LevelManager level;
 
+    // Set if the player is facing knockback
+    public bool knockback;
+
+    // Amount of time player should be knocked back
+    private float knockbackTime;
+
+    // Multiplier of velocity for knockback
+    public float knockbackForce;
+
+    // Knockback time for walls
+    public float wallKnockbackTime;
+
+    // Knockback time for obstacles
+    public float obstacleKnockbackTime;
+
+    // List of all row points
+    public GameObject[] rowPoints;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -87,13 +105,27 @@ public class DetectRowing : MonoBehaviour
         ResetLeft();
         ResetRight();
         currentVelocity = 0.0f;
+        knockback = false;
+        knockbackTime = wallKnockbackTime;
         InitializeSettings();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (level.gameRunning)
+        foreach (GameObject point in rowPoints)
+        {
+            if (rowPointsVisible)
+            {
+                point.GetComponent<Renderer>().enabled = true;
+            }
+            else
+            {
+                point.GetComponent<Renderer>().enabled = false;
+            }
+        }
+
+        if (level.gameRunning && !knockback)
         {
             if (currentVelocity > 0)
             {
@@ -117,11 +149,12 @@ public class DetectRowing : MonoBehaviour
                 {
                     currentVelocity += rowAcceleration;
                 }
-
-                StartMotion();
             }
+
+
+            StartMotion();
         }
-        else
+        else if (!knockback)
         {
             myRB.velocity = Vector3.zero;
             MatchVelocities();
@@ -169,7 +202,7 @@ public class DetectRowing : MonoBehaviour
     // Call when left start trigger is entered
     public void LeftStart()
     {
-        if (level.gameRunning)
+        if (level.gameRunning && !knockback)
         {
             if ((mandatoryPaddles && grabbingLeftPaddle) || !mandatoryPaddles)
             {
@@ -184,7 +217,7 @@ public class DetectRowing : MonoBehaviour
     // Call when left end trigger is entered
     public void LeftEnd()
     {
-        if (level.gameRunning)
+        if (level.gameRunning && !knockback)
         {
             if ((mandatoryPaddles && grabbingLeftPaddle) || !mandatoryPaddles)
             {
@@ -218,7 +251,7 @@ public class DetectRowing : MonoBehaviour
 
     public void RightStart()
     {
-        if (level.gameRunning)
+        if (level.gameRunning && !knockback)
         {
             if ((mandatoryPaddles && grabbingRightPaddle) || !mandatoryPaddles)
             {
@@ -231,7 +264,7 @@ public class DetectRowing : MonoBehaviour
 
     public void RightEnd()
     {
-        if (level.gameRunning)
+        if (level.gameRunning && !knockback)
         {
             if ((mandatoryPaddles && grabbingRightPaddle) || !mandatoryPaddles)
             {
@@ -271,7 +304,7 @@ public class DetectRowing : MonoBehaviour
 
     private void TurnRight()
     {
-        if (level.gameRunning)
+        if (level.gameRunning && !knockback)
         {
             Quaternion newRotation = Quaternion.Euler(0, transform.eulerAngles.y + rotationAmount, 0);
             StartCoroutine(RotationLerp(newRotation, rotationTime));
@@ -280,7 +313,7 @@ public class DetectRowing : MonoBehaviour
 
     private void TurnLeft()
     {
-        if (level.gameRunning)
+        if (level.gameRunning && !knockback)
         {
             Quaternion newRotation = Quaternion.Euler(0, transform.eulerAngles.y - rotationAmount, 0);
             StartCoroutine(RotationLerp(newRotation, rotationTime));
@@ -289,7 +322,7 @@ public class DetectRowing : MonoBehaviour
 
     IEnumerator RotationLerp(Quaternion newRotation, float duration)
     {
-        if (level.gameRunning)
+        if (level.gameRunning && !knockback)
         {
             float time = 0.0f;
             Quaternion oldRotation = transform.rotation;
@@ -333,5 +366,36 @@ public class DetectRowing : MonoBehaviour
         {
             grabbingRightPaddle = false;
         }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Walls" && !knockback)
+        {
+            knockbackTime = wallKnockbackTime;
+            StartCoroutine("Knockback");
+        }
+    }
+
+    public IEnumerator Knockback()
+    {
+        float currentForce = knockbackForce;
+        Vector3 origDirection = Vector3.Normalize(myRB.velocity);
+
+        knockback = true;
+
+        for (int i = 0; i < 10; i++)
+        {
+            myRB.velocity = origDirection * -currentForce;
+            MatchVelocities();
+            currentForce -= knockbackForce / 10f;
+            yield return new WaitForSeconds(knockbackTime);
+        }
+
+        myRB.velocity = Vector3.zero;
+        currentVelocity = 0;
+        MatchVelocities();
+        
+        knockback = false;
     }
 }

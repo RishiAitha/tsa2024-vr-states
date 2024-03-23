@@ -8,10 +8,17 @@ public class LevelManager : MonoBehaviour
 {
     public TextMeshProUGUI timerText;
 
+    public TextMeshProUGUI countdownText;
+
     public float levelTime;
     private float levelTimeCounter;
 
+    public float countdownTime;
+    private float countdownTimeCounter;
+
     public GameObject timerDisplay;
+
+    public GameObject countdownDisplay;
 
     public GameObject gameOverMenu;
 
@@ -22,6 +29,8 @@ public class LevelManager : MonoBehaviour
 
     public bool gameRunning;
 
+    public bool gameStarted;
+
     private bool pauseOpen;
 
     public InputActionProperty menuInteraction;
@@ -31,36 +40,58 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         rowScript = FindObjectOfType<DetectRowing>();
+        countdownTimeCounter = countdownTime;
         levelTimeCounter = levelTime;
         leftGrabRay.SetActive(false);
         rightGrabRay.SetActive(false);
-        gameRunning = true;
+        gameRunning = false;
+        gameStarted = false;
         pauseOpen = false;
+        countdownDisplay.SetActive(true);
+        timerDisplay.SetActive(false);
     }
 
     private void Update()
     {
-        if (menuInteraction.action.triggered)
+        if (gameStarted)
         {
-            if (pauseOpen)
+            if (menuInteraction.action.triggered)
             {
-                UnPause();
+                if (pauseOpen)
+                {
+                    UnPause();
+                }
+                else
+                {
+                    Pause();
+                }
             }
-            else
+            if (gameRunning)
             {
-                Pause();
+                if (levelTimeCounter > 1f)
+                {
+                    levelTimeCounter -= Time.deltaTime;
+                    timerText.text = ((int)levelTimeCounter).ToString();
+                }
+                else
+                {
+                    GameOver();
+                }
             }
         }
-        if (gameRunning)
+        else
         {
-            if (levelTimeCounter > 0f)
+            if (countdownTimeCounter > 1f)
             {
-                levelTimeCounter -= Time.deltaTime;
-                timerText.text = ((int) levelTimeCounter).ToString();
+                countdownTimeCounter -= Time.deltaTime;
+                countdownText.text = ((int) countdownTimeCounter).ToString();
             }
             else
             {
-                GameOver();
+                gameStarted = true;
+                gameRunning = true;
+                countdownDisplay.SetActive(false);
+                timerDisplay.SetActive(true);
             }
         }
     }

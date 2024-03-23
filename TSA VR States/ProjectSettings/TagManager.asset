@@ -10,6 +10,7 @@ TagManager:
   - LeftEnd
   - RightStart
   - RightEnd
+  - Walls
   layers:
   - Default
   - TransparentFX
