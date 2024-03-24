@@ -15,6 +15,7 @@ public class MainMenu : MonoBehaviour
     public GameObject infoCanvas;
     public GameObject playerCamera;
     public Button[] levelButtons;
+    public TextMeshProUGUI[] levelTimeTexts;
     public Toggle requireHoldingPaddlesInput;
     public Toggle hideRowingPointsInput;
     public Toggle muteMusicInput;
@@ -165,19 +166,36 @@ public class MainMenu : MonoBehaviour
             button.interactable = false;
         }
 
+        if (PlayerPrefs.HasKey("TutorialTime"))
+        {
+            levelTimeTexts[0].text = levelTimeTexts[0].text + "\nBest Time: " + PlayerPrefs.GetInt("TutorialTime").ToString() + " seconds";
+        }
+
         if (PlayerPrefs.GetInt("Level1") == 1)
         {
             levelButtons[0].interactable = true;
+            if (PlayerPrefs.HasKey("Level1Time"))
+            {
+                levelTimeTexts[1].text = levelTimeTexts[1].text + "\nBest Time: " + PlayerPrefs.GetInt("Level1Time").ToString() + " seconds";
+            }
         }
 
         if (PlayerPrefs.GetInt("Level2") == 1)
         {
             levelButtons[1].interactable = true;
+            if (PlayerPrefs.HasKey("Level2Time"))
+            {
+                levelTimeTexts[2].text = levelTimeTexts[2].text + "\nBest Time: " + PlayerPrefs.GetInt("Level2Time").ToString() + " seconds";
+            }
         }
 
         if (PlayerPrefs.GetInt("Level3") == 1)
         {
             levelButtons[2].interactable = true;
+            if (PlayerPrefs.HasKey("Level3Time"))
+            {
+                levelTimeTexts[3].text = levelTimeTexts[3].text + "\nBest Time " + PlayerPrefs.GetInt("Level3Time").ToString() + " seconds";
+            }
         }
     }
 
@@ -300,6 +318,10 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.SetInt("HidePoints", 0);
         PlayerPrefs.SetInt("MuteMusic", 0);
         PlayerPrefs.SetFloat("MusicVolume", 0.5f);
+        PlayerPrefs.DeleteKey("TutorialTime");
+        PlayerPrefs.DeleteKey("Level1Time");
+        PlayerPrefs.DeleteKey("Level2Time");
+        PlayerPrefs.DeleteKey("Level3Time");
         SceneManager.LoadScene("Main Menu");
     }
 
