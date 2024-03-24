@@ -14,6 +14,7 @@ public class MainMenu : MonoBehaviour
     public GameObject[] tutorialPages;
     public GameObject infoCanvas;
     public GameObject playerCamera;
+    public Button[] levelButtons;
     public Toggle requireHoldingPaddlesInput;
     public Toggle hideRowingPointsInput;
     public Toggle muteMusicInput;
@@ -35,6 +36,7 @@ public class MainMenu : MonoBehaviour
         tutorialPage = 0;
 
         InitializeSettings();
+        InitializeLevels();
     }
 
     public void Update()
@@ -128,7 +130,7 @@ public class MainMenu : MonoBehaviour
 
         if (tutorialPage < 0)
         {
-            BackToMain();
+            OpenLevelSelect();
         }
         else
         {
@@ -138,6 +140,44 @@ public class MainMenu : MonoBehaviour
             }
 
             tutorialPages[tutorialPage].SetActive(true);
+        }
+    }
+
+    private void InitializeLevels()
+    {
+        if (!PlayerPrefs.HasKey("Level1"))
+        {
+            PlayerPrefs.SetInt("Level1", 0);
+        }
+
+        if (!PlayerPrefs.HasKey("Level2"))
+        {
+            PlayerPrefs.SetInt("Level2", 0);
+        }
+
+        if (!PlayerPrefs.HasKey("Level3"))
+        {
+            PlayerPrefs.SetInt("Level3", 0);
+        }
+
+        foreach (Button button in levelButtons)
+        {
+            button.interactable = false;
+        }
+
+        if (PlayerPrefs.GetInt("Level1") == 1)
+        {
+            levelButtons[0].interactable = true;
+        }
+
+        if (PlayerPrefs.GetInt("Level2") == 1)
+        {
+            levelButtons[1].interactable = true;
+        }
+
+        if (PlayerPrefs.GetInt("Level3") == 1)
+        {
+            levelButtons[2].interactable = true;
         }
     }
 
@@ -249,6 +289,18 @@ public class MainMenu : MonoBehaviour
     public void ChangeMusicVolume()
     {
         PlayerPrefs.SetFloat("MusicVolume", musicVolumeInput.value);
+    }
+
+    public void ResetSaveData()
+    {
+        PlayerPrefs.SetInt("Level1", 0);
+        PlayerPrefs.SetInt("Level2", 0);
+        PlayerPrefs.SetInt("Level3", 0);
+        PlayerPrefs.SetInt("MandatoryPaddles", 0);
+        PlayerPrefs.SetInt("HidePoints", 0);
+        PlayerPrefs.SetInt("MuteMusic", 0);
+        PlayerPrefs.SetFloat("MusicVolume", 0.5f);
+        SceneManager.LoadScene("Main Menu");
     }
 
     public void QuitButton()

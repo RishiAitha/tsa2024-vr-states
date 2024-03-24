@@ -18,5 +18,4 @@ public class SlowRing : MonoBehaviour
             rowScript.currentVelocity *= 0.5f;
         }
     }
-
 }
