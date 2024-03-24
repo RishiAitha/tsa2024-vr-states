@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class MainMenu : MonoBehaviour
 {
     public GameObject startMenu;
     public GameObject levelMenu;
     public GameObject settingsMenu;
+    public GameObject[] tutorialPages;
     public GameObject infoCanvas;
     public GameObject playerCamera;
     public Toggle requireHoldingPaddlesInput;
@@ -17,11 +19,20 @@ public class MainMenu : MonoBehaviour
     public Toggle muteMusicInput;
     public Slider musicVolumeInput;
 
+    public int tutorialPage;
+
     public void Start()
     {
         startMenu.SetActive(true);
         levelMenu.SetActive(false);
         settingsMenu.SetActive(false);
+
+        foreach (GameObject page in tutorialPages)
+        {
+            page.SetActive(false);
+        }
+
+        tutorialPage = 0;
 
         InitializeSettings();
     }
@@ -37,6 +48,11 @@ public class MainMenu : MonoBehaviour
         startMenu.SetActive(false);
         levelMenu.SetActive(true);
         settingsMenu.SetActive(false);
+
+        foreach (GameObject page in tutorialPages)
+        {
+            page.SetActive(false);
+        }
     }
 
     public void OpenSettingsMenu()
@@ -44,6 +60,11 @@ public class MainMenu : MonoBehaviour
         startMenu.SetActive(false);
         levelMenu.SetActive(false);
         settingsMenu.SetActive(true);
+
+        foreach (GameObject page in tutorialPages)
+        {
+            page.SetActive(false);
+        }
     }
 
     public void BackToMain()
@@ -51,12 +72,75 @@ public class MainMenu : MonoBehaviour
         startMenu.SetActive(true);
         levelMenu.SetActive(false);
         settingsMenu.SetActive(false);
+
+        foreach (GameObject page in tutorialPages)
+        {
+            page.SetActive(false);
+        }
     }
 
-    public void LoadTutorial()
+    public void OpenTutorial()
     {
-        SceneManager.LoadScene("Level Tutorial");
+        startMenu.SetActive(false);
+        levelMenu.SetActive(false);
+        settingsMenu.SetActive(false);
+
+        tutorialPage = 0;
+
+        foreach (GameObject page in tutorialPages)
+        {
+            page.SetActive(false);
+        }
+
+        tutorialPages[tutorialPage].SetActive(true);
     }
+
+    public void NextTutorial()
+    {
+        startMenu.SetActive(false);
+        levelMenu.SetActive(false);
+        settingsMenu.SetActive(false);
+
+        tutorialPage++;
+
+        if (tutorialPage >= tutorialPages.Length)
+        {
+            SceneManager.LoadScene("Level Tutorial");
+        }
+        else
+        {
+            foreach (GameObject page in tutorialPages)
+            {
+                page.SetActive(false);
+            }
+
+            tutorialPages[tutorialPage].SetActive(true);
+        }
+    }
+
+    public void PreviousTutorial()
+    {
+        startMenu.SetActive(false);
+        levelMenu.SetActive(false);
+        settingsMenu.SetActive(false);
+
+        tutorialPage--;
+
+        if (tutorialPage < 0)
+        {
+            BackToMain();
+        }
+        else
+        {
+            foreach (GameObject page in tutorialPages)
+            {
+                page.SetActive(false);
+            }
+
+            tutorialPages[tutorialPage].SetActive(true);
+        }
+    }
+
     public void LoadLevel1()
     {
         SceneManager.LoadScene("Level 1");
