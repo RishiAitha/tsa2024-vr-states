@@ -82,16 +82,10 @@ public class DetectRowing : MonoBehaviour
     public bool knockback;
 
     // Amount of time player should be knocked back
-    private float knockbackTime;
+    public float knockbackTime;
 
     // Multiplier of velocity for knockback
     public float knockbackForce;
-
-    // Knockback time for walls
-    public float wallKnockbackTime;
-
-    // Knockback time for obstacles
-    public float obstacleKnockbackTime;
 
     // List of all row points
     public GameObject[] rowPoints;
@@ -106,7 +100,6 @@ public class DetectRowing : MonoBehaviour
         ResetRight();
         currentVelocity = 0.0f;
         knockback = false;
-        knockbackTime = wallKnockbackTime;
         InitializeSettings();
     }
 
@@ -372,7 +365,6 @@ public class DetectRowing : MonoBehaviour
     {
         if (other.gameObject.tag == "Walls" && !knockback)
         {
-            knockbackTime = wallKnockbackTime;
             StartCoroutine("Knockback");
         }
     }

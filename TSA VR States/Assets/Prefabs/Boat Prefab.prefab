@@ -9060,9 +9060,8 @@ MonoBehaviour:
   musicMuted: 0
   musicVolume: 0
   knockback: 0
+  knockbackTime: 0.1
   knockbackForce: 5
-  wallKnockbackTime: 0.1
-  obstacleKnockbackTime: 0.1
   rowPoints:
   - {fileID: 1268012954871347693}
   - {fileID: 7312639870270508598}
