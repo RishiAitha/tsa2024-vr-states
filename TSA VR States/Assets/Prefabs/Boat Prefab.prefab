@@ -1166,8 +1166,8 @@ MonoBehaviour:
   timerText: {fileID: 7125341297967007140}
   countdownText: {fileID: 7104881425817798072}
   victoryText: {fileID: 7818713378636672610}
-  levelTime: 401
-  countdownTime: 4
+  levelTime: 400
+  countdownTime: 3
   currentTime: 0
   timerDisplay: {fileID: 899930789312066039}
   countdownDisplay: {fileID: 241274993038523972}

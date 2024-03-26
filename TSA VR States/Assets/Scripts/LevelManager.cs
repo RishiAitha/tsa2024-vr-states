@@ -76,11 +76,11 @@ public class LevelManager : MonoBehaviour
             }
             if (gameRunning)
             {
-                if (levelTimeCounter > 1f)
+                if (levelTimeCounter > 0f)
                 {
                     levelTimeCounter -= Time.deltaTime;
                     currentTime += Time.deltaTime;
-                    timerText.text = ((int)levelTimeCounter).ToString();
+                    timerText.text = ((int)levelTimeCounter + 1).ToString();
                 }
                 else
                 {
@@ -90,10 +90,10 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            if (countdownTimeCounter > 1f)
+            if (countdownTimeCounter > 0f)
             {
                 countdownTimeCounter -= Time.deltaTime;
-                countdownText.text = ((int) countdownTimeCounter).ToString();
+                countdownText.text = ((int)countdownTimeCounter + 1).ToString();
             }
             else
             {
