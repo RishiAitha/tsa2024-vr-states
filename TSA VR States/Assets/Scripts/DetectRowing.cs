@@ -77,6 +77,7 @@ public class DetectRowing : MonoBehaviour
 
     // Get level manager script
     private LevelManager level;
+    private EndlessManager endless;
 
     // Set if the player is facing knockback
     public bool knockback;
@@ -94,6 +95,7 @@ public class DetectRowing : MonoBehaviour
     void Start()
     {
         level = FindObjectOfType<LevelManager>();
+        endless = FindObjectOfType<EndlessManager>();
         myRB = GetComponent<Rigidbody>();
         // Initialize state variables
         ResetLeft();
@@ -118,7 +120,7 @@ public class DetectRowing : MonoBehaviour
             }
         }
 
-        if (level.gameRunning && !knockback)
+        if (GameRunning() && !knockback)
         {
             if (currentVelocity > 0)
             {
@@ -195,7 +197,7 @@ public class DetectRowing : MonoBehaviour
     // Call when left start trigger is entered
     public void LeftStart()
     {
-        if (level.gameRunning && !knockback)
+        if (GameRunning() && !knockback)
         {
             if ((mandatoryPaddles && grabbingLeftPaddle) || !mandatoryPaddles)
             {
@@ -210,7 +212,7 @@ public class DetectRowing : MonoBehaviour
     // Call when left end trigger is entered
     public void LeftEnd()
     {
-        if (level.gameRunning && !knockback)
+        if (GameRunning() && !knockback)
         {
             if ((mandatoryPaddles && grabbingLeftPaddle) || !mandatoryPaddles)
             {
@@ -235,7 +237,7 @@ public class DetectRowing : MonoBehaviour
 
     private void ResetLeft()
     {
-        if (level.gameRunning)
+        if (GameRunning())
         {
             leftStarted = false;
             leftFinished = false;
@@ -244,7 +246,7 @@ public class DetectRowing : MonoBehaviour
 
     public void RightStart()
     {
-        if (level.gameRunning && !knockback)
+        if (GameRunning() && !knockback)
         {
             if ((mandatoryPaddles && grabbingRightPaddle) || !mandatoryPaddles)
             {
@@ -257,7 +259,7 @@ public class DetectRowing : MonoBehaviour
 
     public void RightEnd()
     {
-        if (level.gameRunning && !knockback)
+        if (GameRunning() && !knockback)
         {
             if ((mandatoryPaddles && grabbingRightPaddle) || !mandatoryPaddles)
             {
@@ -277,7 +279,7 @@ public class DetectRowing : MonoBehaviour
 
     private void ResetRight()
     {
-        if (level.gameRunning)
+        if (GameRunning())
         {
             rightStarted = false;
             rightFinished = false;
@@ -297,7 +299,7 @@ public class DetectRowing : MonoBehaviour
 
     private void TurnRight()
     {
-        if (level.gameRunning && !knockback)
+        if (GameRunning() && !knockback)
         {
             Quaternion newRotation = Quaternion.Euler(0, transform.eulerAngles.y + rotationAmount, 0);
             StartCoroutine(RotationLerp(newRotation, rotationTime));
@@ -306,7 +308,7 @@ public class DetectRowing : MonoBehaviour
 
     private void TurnLeft()
     {
-        if (level.gameRunning && !knockback)
+        if (GameRunning() && !knockback)
         {
             Quaternion newRotation = Quaternion.Euler(0, transform.eulerAngles.y - rotationAmount, 0);
             StartCoroutine(RotationLerp(newRotation, rotationTime));
@@ -315,7 +317,7 @@ public class DetectRowing : MonoBehaviour
 
     IEnumerator RotationLerp(Quaternion newRotation, float duration)
     {
-        if (level.gameRunning && !knockback)
+        if (GameRunning() && !knockback)
         {
             float time = 0.0f;
             Quaternion oldRotation = transform.rotation;
@@ -331,7 +333,7 @@ public class DetectRowing : MonoBehaviour
     }
     public void GrabLeftPaddle()
     {
-        if (level.gameRunning)
+        if (GameRunning())
         {
             grabbingLeftPaddle = true;
         }
@@ -339,7 +341,7 @@ public class DetectRowing : MonoBehaviour
 
     public void UnGrabLeftPaddle()
     {
-        if (level.gameRunning)
+        if (GameRunning())
         {
             grabbingLeftPaddle = false;
         }
@@ -347,7 +349,7 @@ public class DetectRowing : MonoBehaviour
 
     public void GrabRightPaddle()
     {
-        if (level.gameRunning)
+        if (GameRunning())
         {
             grabbingRightPaddle = true;
         }
@@ -355,7 +357,7 @@ public class DetectRowing : MonoBehaviour
 
     public void UnGrabRightPaddle()
     {
-        if (level.gameRunning)
+        if (GameRunning())
         {
             grabbingRightPaddle = false;
         }
@@ -389,5 +391,17 @@ public class DetectRowing : MonoBehaviour
         MatchVelocities();
         
         knockback = false;
+    }
+
+    public bool GameRunning()
+    {
+        if (level != null)
+        {
+            return level.gameRunning;
+        }
+        else
+        {
+            return endless.gameRunning;
+        }
     }
 }

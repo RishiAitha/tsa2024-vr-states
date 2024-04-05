@@ -10,17 +10,14 @@ public class PaddleRowing : MonoBehaviour
 
     public bool isGrabbed;
 
-    public LevelManager level;
-
     void Start()
     {
-        level = FindObjectOfType<LevelManager>();
         rowScript = FindObjectOfType<DetectRowing>();
     }
 
     void Update()
     {
-        if (level.gameRunning)
+        if (rowScript.GameRunning())
         {
             if (isLeft)
             {
@@ -35,7 +32,7 @@ public class PaddleRowing : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (level.gameRunning)
+        if (rowScript.GameRunning())
         {
             if (isGrabbed)
             {
