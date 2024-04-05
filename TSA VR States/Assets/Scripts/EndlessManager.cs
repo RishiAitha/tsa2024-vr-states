@@ -42,11 +42,10 @@ public class EndlessManager : MonoBehaviour
 
     public GameObject rockWall;
 
-    public int initialMoves;
+    public GameObject[] obstaclePrefabs;
 
     private void Start()
     {
-        initialMoves = 2;
         rowScript = FindObjectOfType<DetectRowing>();
         countdownTimeCounter = countdownTime;
         score = 0;
@@ -58,6 +57,12 @@ public class EndlessManager : MonoBehaviour
         countdownDisplay.SetActive(true);
         scoreDisplay.SetActive(false);
         victoryMenu.SetActive(false);
+
+        for (int i = 0; i < blocks.Length; i++)
+        {
+            blocks[i].GetComponent<EndlessBlock>().Randomize();
+            blocks[i].GetComponent<EndlessBlock>().index = i;
+        }
     }
 
     private void Update()
@@ -143,23 +148,24 @@ public class EndlessManager : MonoBehaviour
 
     public void MoveBlocks()
     {
-        if (initialMoves <= 0)
+        score++;
+        for (int i = 1; i < blocks.Length; i++)
         {
-            score++;
-            for (int i = 1; i < blocks.Length; i++)
-            {
-                GameObject swapBlock = blocks[i - 1];
-                blocks[i - 1] = blocks[i];
-                blocks[i] = swapBlock;
-            }
-            Transform lastBlockTransform = blocks[blocks.Length - 1].transform;
-            lastBlockTransform.position = new Vector3(lastBlockTransform.position.x, lastBlockTransform.position.y, lastBlockTransform.position.z + 300f);
-            Transform rockWallTransform = rockWall.GetComponent<Transform>();
-            rockWallTransform.SetParent(blocks[0].GetComponent<Transform>(), false);
+            GameObject swapBlock = blocks[i - 1];
+            blocks[i - 1] = blocks[i];
+            blocks[i] = swapBlock;
         }
-        else
+
+        for (int i = 0; i < blocks.Length; i++)
         {
-            initialMoves--;
+            blocks[i].GetComponent<EndlessBlock>().index = i;
         }
+
+        Transform lastBlockTransform = blocks[blocks.Length - 1].transform;
+        lastBlockTransform.position = new Vector3(lastBlockTransform.position.x, lastBlockTransform.position.y, lastBlockTransform.position.z + 300f);
+        Transform rockWallTransform = rockWall.transform;
+        rockWallTransform.SetParent(blocks[0].transform, false);
+
+        blocks[blocks.Length - 1].GetComponent<EndlessBlock>().Randomize();
     }
 }

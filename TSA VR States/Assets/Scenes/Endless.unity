@@ -4703,6 +4703,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 650532442}
   m_Mesh: {fileID: 4300002, guid: 1bce1f32336e559449196358a449ab37, type: 3}
+--- !u!1 &652079516
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 652079517}
+  m_Layer: 0
+  m_Name: Obstacles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &652079517
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 652079516}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1432570044}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &652136660
 GameObject:
   m_ObjectHideFlags: 0
@@ -10232,44 +10263,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1272507392}
   m_Mesh: {fileID: 4300004, guid: 1bce1f32336e559449196358a449ab37, type: 3}
---- !u!84 &1278295473
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: WaterDepthMap
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 5
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 0
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &1279649407
 GameObject:
   m_ObjectHideFlags: 0
@@ -11063,6 +11056,7 @@ Transform:
   - {fileID: 1221411978}
   - {fileID: 2028992149}
   - {fileID: 49080907}
+  - {fileID: 2049033964}
   m_Father: {fileID: 1202980836586232226}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1357329208
@@ -11098,6 +11092,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4146068dc802eb04f85446a17b21b43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obstacles: {fileID: 2049033963}
+  index: 0
 --- !u!1 &1362631556
 GameObject:
   m_ObjectHideFlags: 0
@@ -12120,6 +12116,7 @@ Transform:
   - {fileID: 1199819464}
   - {fileID: 1965582060}
   - {fileID: 1712895412}
+  - {fileID: 652079517}
   - {fileID: 1093948892}
   m_Father: {fileID: 1202980836586232226}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12156,6 +12153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4146068dc802eb04f85446a17b21b43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obstacles: {fileID: 652079516}
+  index: 0
 --- !u!1 &1437898828
 GameObject:
   m_ObjectHideFlags: 0
@@ -12275,6 +12274,7 @@ Transform:
   - {fileID: 1819057959}
   - {fileID: 1319596920}
   - {fileID: 1232824219}
+  - {fileID: 1631419923}
   m_Father: {fileID: 1202980836586232226}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1449169626
@@ -12310,6 +12310,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4146068dc802eb04f85446a17b21b43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  obstacles: {fileID: 1631419922}
+  index: 0
 --- !u!1 &1454254639
 GameObject:
   m_ObjectHideFlags: 0
@@ -14087,6 +14089,18 @@ MonoBehaviour:
   - {fileID: 1357329206}
   rockWall: {fileID: 1093948891}
   initialMoves: 0
+  obstaclePrefabs:
+  - {fileID: 6013493184626062807, guid: acd8c2b4dbc2a8d47b05a23f21696f3c, type: 3}
+  - {fileID: 8246039520237619257, guid: 6ab90840c56d0884aa1e3fb313ae1408, type: 3}
+  - {fileID: 2534915334905718461, guid: 3faa4f216f066944587606591c02a4b2, type: 3}
+  - {fileID: 166554480368454815, guid: f74a0c4ae18bf98418dc4c45c5812763, type: 3}
+  - {fileID: 5703395953140221062, guid: 6c172782306e38a44b8d5bbba0ef8897, type: 3}
+  - {fileID: 476113991665903322, guid: 6dcb985027b45164aacbee49a4127b89, type: 3}
+  - {fileID: 5419597149085029007, guid: 0808d7bf665836c40afaa7e129f64635, type: 3}
+  - {fileID: 2524092911489195861, guid: 3448610b98785904e93a66efade58792, type: 3}
+  - {fileID: 8481696657530947718, guid: dd272c8e0a4cfa346b4d6430c5c44c23, type: 3}
+  - {fileID: 5494807227892530818, guid: 800a776414433db478ebfe50c3750cd2, type: 3}
+  - {fileID: 4623686418962624143, guid: 2d161f450ad3d734a96bb5d43f4381a3, type: 3}
 --- !u!1 &1630913632
 GameObject:
   m_ObjectHideFlags: 0
@@ -14127,6 +14141,37 @@ Transform:
   - {fileID: 1079202437}
   - {fileID: 1894988888}
   m_Father: {fileID: 884904762}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1631419922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1631419923}
+  m_Layer: 0
+  m_Name: Obstacles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1631419923
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631419922}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1449169625}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1653063228
 GameObject:
@@ -15009,6 +15054,44 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1729540724}
   m_Mesh: {fileID: 4300000, guid: 1bce1f32336e559449196358a449ab37, type: 3}
+--- !u!84 &1733669461
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WaterDepthMap
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 0
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &1765812326
 GameObject:
   m_ObjectHideFlags: 0
@@ -17150,6 +17233,37 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!1 &2049033963
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2049033964}
+  m_Layer: 0
+  m_Name: Obstacles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2049033964
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2049033963}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1357329207}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2094643749
 GameObject:
   m_ObjectHideFlags: 0
@@ -26501,7 +26615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   computeOverride: 0
-  _depthTex: {fileID: 1278295473}
+  _depthTex: {fileID: 1733669461}
   bakedDepthTex: {fileID: 0}
   _waves:
   - amplitude: 0.30540264
