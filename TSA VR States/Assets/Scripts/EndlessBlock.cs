@@ -30,7 +30,7 @@ public class EndlessBlock : MonoBehaviour
             Destroy(obstacles.transform.GetChild(i).gameObject);
         }
 
-        GameObject obstacle1 = Instantiate(endless.obstaclePrefabs[Random.Range(0, endless.obstaclePrefabs.Length - 1)]);
+        GameObject obstacle1 = Instantiate(endless.obstaclePrefabs[Random.Range(0, endless.obstaclePrefabs.Length)]);
         obstacle1.transform.SetParent(obstacles.transform);
         if (obstacle1.GetComponent<SpeedRing>() != null || obstacle1.GetComponent<SlowRing>() != null)
         {
@@ -41,7 +41,7 @@ public class EndlessBlock : MonoBehaviour
             obstacle1.transform.localPosition = new Vector3(Random.Range(-27f, -15f), -2.3f, -7f);
         }
         
-        GameObject obstacle2 = Instantiate(endless.obstaclePrefabs[Random.Range(0, endless.obstaclePrefabs.Length - 1)]);
+        GameObject obstacle2 = Instantiate(endless.obstaclePrefabs[Random.Range(0, endless.obstaclePrefabs.Length)]);
         obstacle2.transform.SetParent(obstacles.transform);
         if (obstacle2.GetComponent<SpeedRing>() != null || obstacle2.GetComponent<SlowRing>() != null)
         {
@@ -52,7 +52,7 @@ public class EndlessBlock : MonoBehaviour
             obstacle2.transform.localPosition = new Vector3(Random.Range(-27f, -15f), -2.3f, 23f);
         }
 
-        GameObject obstacle3 = Instantiate(endless.obstaclePrefabs[Random.Range(0, endless.obstaclePrefabs.Length - 1)]);
+        GameObject obstacle3 = Instantiate(endless.obstaclePrefabs[Random.Range(0, endless.obstaclePrefabs.Length)]);
         obstacle3.transform.SetParent(obstacles.transform);
         if (obstacle3.GetComponent<SpeedRing>() != null || obstacle3.GetComponent<SlowRing>() != null)
         {
