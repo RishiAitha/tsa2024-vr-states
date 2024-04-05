@@ -10,9 +10,14 @@ public class EndlessBlock : MonoBehaviour
 
     public int index;
 
+    public float leftBound;
+    public float rightBound;
+
     void Start()
     {
         endless = FindObjectOfType<EndlessManager>();
+        leftBound = GetComponent<BoxCollider>().center.x - (GetComponent<BoxCollider>().size.x / 2);
+        rightBound = GetComponent<BoxCollider>().center.x + (GetComponent<BoxCollider>().size.x / 2);
     }
 
     void OnTriggerEnter(Collider other)
@@ -34,33 +39,33 @@ public class EndlessBlock : MonoBehaviour
         obstacle1.transform.SetParent(obstacles.transform);
         if (obstacle1.GetComponent<SpeedRing>() != null || obstacle1.GetComponent<SlowRing>() != null)
         {
-            obstacle1.transform.localPosition = new Vector3(Random.Range(-27f, -15f), -1.3f, -7f);
+            obstacle1.transform.localPosition = new Vector3(Random.Range(leftBound, rightBound), -1.3f, -7f);
         }
         else
         {
-            obstacle1.transform.localPosition = new Vector3(Random.Range(-27f, -15f), -2.3f, -7f);
+            obstacle1.transform.localPosition = new Vector3(Random.Range(leftBound, rightBound), -2.3f, -7f);
         }
         
         GameObject obstacle2 = Instantiate(endless.obstaclePrefabs[Random.Range(0, endless.obstaclePrefabs.Length)]);
         obstacle2.transform.SetParent(obstacles.transform);
         if (obstacle2.GetComponent<SpeedRing>() != null || obstacle2.GetComponent<SlowRing>() != null)
         {
-            obstacle2.transform.localPosition = new Vector3(Random.Range(-27f, -15f), -1.3f, 23f);
+            obstacle2.transform.localPosition = new Vector3(Random.Range(leftBound, rightBound), -1.3f, 23f);
         }
         else
         {
-            obstacle2.transform.localPosition = new Vector3(Random.Range(-27f, -15f), -2.3f, 23f);
+            obstacle2.transform.localPosition = new Vector3(Random.Range(leftBound, rightBound), -2.3f, 23f);
         }
 
         GameObject obstacle3 = Instantiate(endless.obstaclePrefabs[Random.Range(0, endless.obstaclePrefabs.Length)]);
         obstacle3.transform.SetParent(obstacles.transform);
         if (obstacle3.GetComponent<SpeedRing>() != null || obstacle3.GetComponent<SlowRing>() != null)
         {
-            obstacle3.transform.localPosition = new Vector3(Random.Range(-27f, -15f), -1.3f, 53f);
+            obstacle3.transform.localPosition = new Vector3(Random.Range(leftBound, rightBound), -1.3f, 53f);
         }
         else
         {
-            obstacle3.transform.localPosition = new Vector3(Random.Range(-27f, -15f), -2.3f, 53f);
+            obstacle3.transform.localPosition = new Vector3(Random.Range(leftBound, rightBound), -2.3f, 53f);
         }
     }
 }
