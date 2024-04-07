@@ -17,6 +17,8 @@ public class PauseMenu : MonoBehaviour
     public LevelManager level;
     public EndlessManager endless;
 
+    private MusicController music;
+
     public void Start()
     {
         startMenu.SetActive(true);
@@ -25,6 +27,7 @@ public class PauseMenu : MonoBehaviour
         rowScript = FindObjectOfType<DetectRowing>();
         level = FindObjectOfType<LevelManager>();
         endless = FindObjectOfType<EndlessManager>();
+        music = FindObjectOfType<MusicController>();
 
         InitializeSettings();
     }
@@ -118,6 +121,8 @@ public class PauseMenu : MonoBehaviour
 
         float musicVolume = PlayerPrefs.GetFloat("MusicVolume");
         musicVolumeInput.value = musicVolume;
+
+        music.UpdateMusic();
     }
 
     public void ChangeRequirePaddles()
@@ -160,12 +165,16 @@ public class PauseMenu : MonoBehaviour
             PlayerPrefs.SetInt("MuteMusic", 0);
             rowScript.musicMuted = false;
         }
+
+        music.UpdateMusic();
     }
 
     public void ChangeMusicVolume()
     {
         PlayerPrefs.SetFloat("MusicVolume", musicVolumeInput.value);
         rowScript.musicVolume = musicVolumeInput.value;
+
+        music.UpdateMusic();
     }
 
     public void QuitButton()

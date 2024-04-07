@@ -153,7 +153,7 @@ RenderTexture:
   m_TextureSettings:
     serializedVersion: 2
     m_FilterMode: 1
-    m_Aniso: 1
+    m_Aniso: 0
     m_MipBias: 0
     m_WrapU: 1
     m_WrapV: 1
@@ -179,6 +179,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1984118989567666936, guid: 33fd938d6a81f664b8810b39b2660c45,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: d0315bc438ada014bb144712d477e9ee, type: 3}
     - target: {fileID: 5723751226175728702, guid: 33fd938d6a81f664b8810b39b2660c45,
         type: 3}
       propertyPath: m_LocalPosition.x

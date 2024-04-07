@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9843,7 +9843,7 @@ RenderTexture:
   m_TextureSettings:
     serializedVersion: 2
     m_FilterMode: 1
-    m_Aniso: 1
+    m_Aniso: 0
     m_MipBias: 0
     m_WrapU: 1
     m_WrapV: 1
@@ -17821,6 +17821,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boat Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 1984118989567666936, guid: 33fd938d6a81f664b8810b39b2660c45,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 94eef4f5e12c995438475af2e1a1869d, type: 3}
     - target: {fileID: 5723751226175728702, guid: 33fd938d6a81f664b8810b39b2660c45,
         type: 3}
       propertyPath: m_LocalPosition.x

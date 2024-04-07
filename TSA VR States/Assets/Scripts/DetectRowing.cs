@@ -91,11 +91,14 @@ public class DetectRowing : MonoBehaviour
     // List of all row points
     public GameObject[] rowPoints;
 
+    private MusicController music;
+
     // Start is called before the first frame update
     void Start()
     {
         level = FindObjectOfType<LevelManager>();
         endless = FindObjectOfType<EndlessManager>();
+        music = FindObjectOfType<MusicController>();
         myRB = GetComponent<Rigidbody>();
         // Initialize state variables
         ResetLeft();
@@ -186,6 +189,8 @@ public class DetectRowing : MonoBehaviour
         }
 
         musicVolume = PlayerPrefs.GetFloat("MusicVolume");
+
+        music.UpdateMusic();
     }
 
     public void StartMotion()

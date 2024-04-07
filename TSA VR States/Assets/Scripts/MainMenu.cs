@@ -22,6 +22,8 @@ public class MainMenu : MonoBehaviour
     public Toggle muteMusicInput;
     public Slider musicVolumeInput;
 
+    private MusicController music;
+
     public int tutorialPage;
     public int endlessPage;
 
@@ -41,6 +43,8 @@ public class MainMenu : MonoBehaviour
         }
 
         tutorialPage = 0;
+
+        music = FindObjectOfType<MusicController>();
 
         InitializeSettings();
         InitializeLevels();
@@ -358,6 +362,8 @@ public class MainMenu : MonoBehaviour
 
         float musicVolume = PlayerPrefs.GetFloat("MusicVolume");
         musicVolumeInput.value = musicVolume;
+
+        music.UpdateMusic();
     }
 
     public void ChangeRequirePaddles()
@@ -394,11 +400,15 @@ public class MainMenu : MonoBehaviour
         {
             PlayerPrefs.SetInt("MuteMusic", 0);
         }
+
+        music.UpdateMusic();
     }
 
     public void ChangeMusicVolume()
     {
         PlayerPrefs.SetFloat("MusicVolume", musicVolumeInput.value);
+
+        music.UpdateMusic();
     }
 
     public void ResetSaveData()
