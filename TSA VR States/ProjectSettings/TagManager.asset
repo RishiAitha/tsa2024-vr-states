@@ -11,6 +11,7 @@ TagManager:
   - RightStart
   - RightEnd
   - Walls
+  - Block
   layers:
   - Default
   - TransparentFX
