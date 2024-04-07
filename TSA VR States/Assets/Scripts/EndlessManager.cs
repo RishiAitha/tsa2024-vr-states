@@ -100,18 +100,6 @@ public class EndlessManager : MonoBehaviour
         }
     }
 
-    public void Victory()
-    {
-        victoryMenu.SetActive(true);
-        pauseMenu.SetActive(false);
-        leftGrabRay.SetActive(true);
-        rightGrabRay.SetActive(true);
-        scoreDisplay.SetActive(false);
-        FreezeGame();
-
-        victoryText.text = "Congrats! Your score is: " + score.ToString();
-    }
-
     public void Pause()
     {
         if (gameRunning)
@@ -149,6 +137,12 @@ public class EndlessManager : MonoBehaviour
     public void MoveBlocks()
     {
         score++;
+
+        if (!PlayerPrefs.HasKey("EndlessScore") || score > PlayerPrefs.GetInt("EndlessScore"))
+        {
+            PlayerPrefs.SetInt("EndlessScore", score);
+        }
+
         for (int i = 1; i < blocks.Length; i++)
         {
             GameObject swapBlock = blocks[i - 1];

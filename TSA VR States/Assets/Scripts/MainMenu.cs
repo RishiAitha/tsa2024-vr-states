@@ -12,6 +12,7 @@ public class MainMenu : MonoBehaviour
     public GameObject levelMenu;
     public GameObject settingsMenu;
     public GameObject[] tutorialPages;
+    public GameObject[] endlessPages;
     public GameObject infoCanvas;
     public GameObject playerCamera;
     public Button[] levelButtons;
@@ -22,6 +23,7 @@ public class MainMenu : MonoBehaviour
     public Slider musicVolumeInput;
 
     public int tutorialPage;
+    public int endlessPage;
 
     public void Start()
     {
@@ -30,6 +32,10 @@ public class MainMenu : MonoBehaviour
         settingsMenu.SetActive(false);
 
         foreach (GameObject page in tutorialPages)
+        {
+            page.SetActive(false);
+        }
+        foreach (GameObject page in endlessPages)
         {
             page.SetActive(false);
         }
@@ -56,6 +62,10 @@ public class MainMenu : MonoBehaviour
         {
             page.SetActive(false);
         }
+        foreach (GameObject page in endlessPages)
+        {
+            page.SetActive(false);
+        }
     }
 
     public void OpenSettingsMenu()
@@ -68,6 +78,10 @@ public class MainMenu : MonoBehaviour
         {
             page.SetActive(false);
         }
+        foreach (GameObject page in endlessPages)
+        {
+            page.SetActive(false);
+        }
     }
 
     public void BackToMain()
@@ -77,6 +91,10 @@ public class MainMenu : MonoBehaviour
         settingsMenu.SetActive(false);
 
         foreach (GameObject page in tutorialPages)
+        {
+            page.SetActive(false);
+        }
+        foreach (GameObject page in endlessPages)
         {
             page.SetActive(false);
         }
@@ -144,8 +162,75 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    public void OpenEndless()
+    {
+        startMenu.SetActive(false);
+        levelMenu.SetActive(false);
+        settingsMenu.SetActive(false);
+
+        endlessPage = 0;
+
+        foreach (GameObject page in endlessPages)
+        {
+            page.SetActive(false);
+        }
+
+        endlessPages[endlessPage].SetActive(true);
+    }
+
+    public void NextEndless()
+    {
+        startMenu.SetActive(false);
+        levelMenu.SetActive(false);
+        settingsMenu.SetActive(false);
+
+        endlessPage++;
+
+        if (endlessPage >= endlessPages.Length)
+        {
+            SceneManager.LoadScene("Endless");
+        }
+        else
+        {
+            foreach (GameObject page in endlessPages)
+            {
+                page.SetActive(false);
+            }
+
+            endlessPages[endlessPage].SetActive(true);
+        }
+    }
+
+    public void PreviousEndless()
+    {
+        startMenu.SetActive(false);
+        levelMenu.SetActive(false);
+        settingsMenu.SetActive(false);
+
+        endlessPage--;
+
+        if (endlessPage < 0)
+        {
+            OpenLevelSelect();
+        }
+        else
+        {
+            foreach (GameObject page in endlessPages)
+            {
+                page.SetActive(false);
+            }
+
+            endlessPages[endlessPage].SetActive(true);
+        }
+    }
+
     private void InitializeLevels()
     {
+        if (!PlayerPrefs.HasKey("Endless"))
+        {
+            PlayerPrefs.SetInt("Endless", 0);
+        }
+
         if (!PlayerPrefs.HasKey("Level1"))
         {
             PlayerPrefs.SetInt("Level1", 0);
@@ -177,6 +262,13 @@ public class MainMenu : MonoBehaviour
             if (PlayerPrefs.HasKey("Level1Time"))
             {
                 levelTimeTexts[1].text = levelTimeTexts[1].text + "\nBest Time: " + PlayerPrefs.GetInt("Level1Time").ToString() + " seconds";
+            }
+
+            PlayerPrefs.SetInt("Endless", 1);
+            levelButtons[3].interactable = true;
+            if (PlayerPrefs.HasKey("EndlessScore"))
+            {
+                levelTimeTexts[4].text = "High Score: " + PlayerPrefs.GetInt("EndlessScore").ToString();
             }
         }
 
@@ -314,6 +406,7 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.SetInt("Level1", 0);
         PlayerPrefs.SetInt("Level2", 0);
         PlayerPrefs.SetInt("Level3", 0);
+        PlayerPrefs.SetInt("Endless", 0);
         PlayerPrefs.SetInt("MandatoryPaddles", 0);
         PlayerPrefs.SetInt("HidePoints", 0);
         PlayerPrefs.SetInt("MuteMusic", 0);
@@ -322,6 +415,7 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.DeleteKey("Level1Time");
         PlayerPrefs.DeleteKey("Level2Time");
         PlayerPrefs.DeleteKey("Level3Time");
+        PlayerPrefs.DeleteKey("EndlessScore");
         SceneManager.LoadScene("Main Menu");
     }
 

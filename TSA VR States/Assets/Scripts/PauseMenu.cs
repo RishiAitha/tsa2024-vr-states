@@ -15,6 +15,7 @@ public class PauseMenu : MonoBehaviour
 
     public DetectRowing rowScript;
     public LevelManager level;
+    public EndlessManager endless;
 
     public void Start()
     {
@@ -23,6 +24,7 @@ public class PauseMenu : MonoBehaviour
 
         rowScript = FindObjectOfType<DetectRowing>();
         level = FindObjectOfType<LevelManager>();
+        endless = FindObjectOfType<EndlessManager>();
 
         InitializeSettings();
     }
@@ -40,7 +42,14 @@ public class PauseMenu : MonoBehaviour
 
     public void UnPause()
     {
-        level.UnPause();
+        if (level != null)
+        {
+            level.UnPause();
+        }
+        else
+        {
+            endless.UnPause();
+        }
     }
 
     public void OpenSettingsMenu()
