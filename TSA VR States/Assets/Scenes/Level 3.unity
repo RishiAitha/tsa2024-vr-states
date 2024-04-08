@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1030,11 +1030,11 @@ Transform:
   m_GameObject: {fileID: 105983815}
   serializedVersion: 2
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: -4.8363733, y: 2.6120777, z: -9.8710785}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1417384762}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &105983818
 MonoBehaviour:
@@ -9051,7 +9051,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1417384762}
     m_Modifications:
     - target: {fileID: 1472016755647993499, guid: 09eae6d3c87f9934d8fdb71d2d60cf91,
         type: 3}
@@ -9071,17 +9071,17 @@ PrefabInstance:
     - target: {fileID: 8897525106498633617, guid: 09eae6d3c87f9934d8fdb71d2d60cf91,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.16
+      value: -4.6763735
       objectReference: {fileID: 0}
     - target: {fileID: 8897525106498633617, guid: 09eae6d3c87f9934d8fdb71d2d60cf91,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.35
+      value: 0.96207774
       objectReference: {fileID: 0}
     - target: {fileID: 8897525106498633617, guid: 09eae6d3c87f9934d8fdb71d2d60cf91,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 35.08
+      value: 25.208923
       objectReference: {fileID: 0}
     - target: {fileID: 8897525106498633617, guid: 09eae6d3c87f9934d8fdb71d2d60cf91,
         type: 3}
@@ -9123,6 +9123,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09eae6d3c87f9934d8fdb71d2d60cf91, type: 3}
+--- !u!4 &1334046985 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8897525106498633617, guid: 09eae6d3c87f9934d8fdb71d2d60cf91,
+    type: 3}
+  m_PrefabInstance: {fileID: 1334046984}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1355066125
 GameObject:
   m_ObjectHideFlags: 0
@@ -10203,6 +10209,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 38037388}
+  - {fileID: 105983817}
+  - {fileID: 1334046985}
   - {fileID: 1285805498}
   - {fileID: 1054413613}
   - {fileID: 1800070546}
@@ -16131,7 +16139,5 @@ MeshFilter:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 105983817}
-  - {fileID: 1417384762}
   - {fileID: 903759366}
-  - {fileID: 1334046984}
+  - {fileID: 1417384762}
