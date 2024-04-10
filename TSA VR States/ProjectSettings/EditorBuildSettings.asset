@@ -6,22 +6,22 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Main Menu.unity
+    path: Assets/Scenes/VR States Levels/Main Menu.unity
     guid: 021df5ba584155f40ada7c2c45d4135b
   - enabled: 1
-    path: Assets/Scenes/Level Tutorial.unity
+    path: Assets/Scenes/VR States Levels/Level Tutorial.unity
     guid: 4093969b7541d4643814626352668b26
   - enabled: 1
     path: Assets/Scenes/Level 1.unity
     guid: 759716f705823754c881db4861344aaf
   - enabled: 1
-    path: Assets/Scenes/Level 3.unity
+    path: Assets/Scenes/VR States Levels/Level 2.unity
     guid: 6268c7bc856418b44972377327bff312
   - enabled: 1
-    path: Assets/Scenes/Level 2.unity
+    path: Assets/Scenes/VR States Levels/Level 3.unity
     guid: 49e7d8421cebc124290f94a3a855966a
   - enabled: 1
-    path: Assets/Scenes/Endless.unity
+    path: Assets/Scenes/VR States Levels/Endless.unity
     guid: f02abe3f4e6bd6a42bc61fe67d53c9d0
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: d9eabb19a6d49d54c8fd8567414269cd,
