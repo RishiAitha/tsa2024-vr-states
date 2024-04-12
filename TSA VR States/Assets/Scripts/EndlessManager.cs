@@ -10,8 +10,6 @@ public class EndlessManager : MonoBehaviour
 
     public TextMeshProUGUI countdownText;
 
-    public TextMeshProUGUI victoryText;
-
     public int score;
 
     public float countdownTime;
@@ -22,8 +20,6 @@ public class EndlessManager : MonoBehaviour
     public GameObject countdownDisplay;
 
     public GameObject pauseMenu;
-
-    public GameObject victoryMenu;
 
     public GameObject leftGrabRay;
     public GameObject rightGrabRay;
@@ -56,7 +52,6 @@ public class EndlessManager : MonoBehaviour
         pauseOpen = false;
         countdownDisplay.SetActive(true);
         scoreDisplay.SetActive(false);
-        victoryMenu.SetActive(false);
 
         for (int i = 0; i < blocks.Length; i++)
         {
