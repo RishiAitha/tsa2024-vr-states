@@ -2276,7 +2276,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Required Time: XXXX seconds'
+  m_text: 'Required Time: 350 seconds'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e986f8f2b94b4146bee42e6c4e8b36a, type: 2}
   m_sharedMaterial: {fileID: 4520865462412832701, guid: 7e986f8f2b94b4146bee42e6c4e8b36a,
@@ -4147,7 +4147,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Required Time: XXXX seconds'
+  m_text: 'Required Time: 100 seconds'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e986f8f2b94b4146bee42e6c4e8b36a, type: 2}
   m_sharedMaterial: {fileID: 4520865462412832701, guid: 7e986f8f2b94b4146bee42e6c4e8b36a,
