@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9249,10 +9249,7 @@ MonoBehaviour:
     You may need to reset your VR camera
     position from your headset.
 
-    From Downingtown East TSA Team 1
-
-    We hope
-    you enjoy!'
+    We hope you enjoy!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e986f8f2b94b4146bee42e6c4e8b36a, type: 2}
   m_sharedMaterial: {fileID: 4520865462412832701, guid: 7e986f8f2b94b4146bee42e6c4e8b36a,
