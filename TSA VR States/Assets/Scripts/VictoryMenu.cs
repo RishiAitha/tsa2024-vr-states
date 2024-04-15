@@ -15,9 +15,4 @@ public class VictoryMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Main Menu");
     }
-
-    public void QuitButton()
-    {
-        Debug.Log("this should have closed the game");
-    }
 }

@@ -176,9 +176,4 @@ public class PauseMenu : MonoBehaviour
 
         music.UpdateMusic();
     }
-
-    public void QuitButton()
-    {
-        Debug.Log("this should have closed the game");
-    }
 }

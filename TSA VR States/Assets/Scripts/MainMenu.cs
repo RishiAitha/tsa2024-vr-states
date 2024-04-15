@@ -428,9 +428,4 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.DeleteKey("EndlessScore");
         SceneManager.LoadScene("Main Menu");
     }
-
-    public void QuitButton()
-    {
-        Debug.Log("this should have closed the game");
-    }
 }
