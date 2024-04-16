@@ -48,7 +48,7 @@ public class EndlessBlock : MonoBehaviour
         obstacle.transform.SetParent(obstacles.transform);
         if (obstacle.GetComponent<SpeedRing>() != null || obstacle.GetComponent<SlowRing>() != null)
         {
-            obstacle.transform.localPosition = new Vector3(Random.Range(leftBound, rightBound), -1.3f, z);
+            obstacle.transform.localPosition = new Vector3(Random.Range(leftBound, rightBound), -1.6f, z);
         }
         else
         {
