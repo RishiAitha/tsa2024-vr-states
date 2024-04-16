@@ -8672,7 +8672,7 @@ MonoBehaviour:
   rightPaddleBody: {fileID: 1042815193359548586}
   rowAcceleration: 5
   rowFinishDelay: 3
-  rowMatchDelay: 1
+  rowMatchDelay: 2
   deceleration: 2.5
   maxVelocity: 20
   currentVelocity: 0
