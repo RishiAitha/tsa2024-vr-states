@@ -184,7 +184,7 @@ MonoBehaviour:
 
 
     To control your boat, quickly move your
-    hands from the two back row guides to the two front ones. Move only  one hand
+    hands from the two back row guides to the two front ones. Move only one hand
     to turn, and both together to go forward. You can also hold onto the paddles
     if you are comfortable. Enjoy the workout!
 
@@ -401,10 +401,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Notes:\r\n\nStart off by moving your arms slowly and intentionally to
-    have better control and synchronization.\n\nUsing the paddles may not be as responsive
-    as using just your hands due to lag on the headset when detecting velocity and
-    collision.\r\n\nYou can pause at any time during gameplay with the \u2261 (menu)
-    button on your controller.\r"
+    have better control and synchronization.\n\nIt is recommended to start without
+    the paddles for an easier time with hand motions. Once you feel comfortable moving
+    around, the paddles are great to use.\n\nYou can pause at any time during gameplay
+    with the \u2261 (menu) button on your controller.\r"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e986f8f2b94b4146bee42e6c4e8b36a, type: 2}
   m_sharedMaterial: {fileID: 4520865462412832701, guid: 7e986f8f2b94b4146bee42e6c4e8b36a,
@@ -3600,7 +3600,7 @@ RenderTexture:
   m_TextureSettings:
     serializedVersion: 2
     m_FilterMode: 1
-    m_Aniso: 1
+    m_Aniso: 0
     m_MipBias: 0
     m_WrapU: 1
     m_WrapV: 1
