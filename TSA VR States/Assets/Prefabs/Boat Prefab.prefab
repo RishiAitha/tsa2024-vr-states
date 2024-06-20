@@ -738,7 +738,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Hide Rowing Guides
+  m_Text: Show Rowing Guides
 --- !u!1 &375178364004367183
 GameObject:
   m_ObjectHideFlags: 0
@@ -1149,7 +1149,7 @@ GameObject:
   - component: {fileID: 6634053089337359120}
   - component: {fileID: 7548171349817095710}
   m_Layer: 5
-  m_Name: Require Holding Paddles
+  m_Name: Allow Rowing with Hands
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1225,7 +1225,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6840541583796916651}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: ChangeRequirePaddles
+        m_MethodName: ChangeAllowHands
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6847,7 +6847,7 @@ GameObject:
   - component: {fileID: 3669152270218201150}
   - component: {fileID: 4581344623349137594}
   m_Layer: 5
-  m_Name: Hide Rowing Guides
+  m_Name: Show Rowing Guides
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6923,7 +6923,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6840541583796916651}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: ChangeHidePoints
+        m_MethodName: ChangeShowPoints
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7012,7 +7012,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Require Holding Paddles
+  m_Text: Allow Rowing with Hands
 --- !u!1 &4898745540992201298
 GameObject:
   m_ObjectHideFlags: 0
@@ -7890,8 +7890,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startMenu: {fileID: 6499166831790381167}
   settingsMenu: {fileID: 8506286221586335859}
-  requireHoldingPaddlesInput: {fileID: 7548171349817095710}
-  hideRowingPointsInput: {fileID: 4581344623349137594}
+  allowUsingHandsInput: {fileID: 7548171349817095710}
+  showRowingPointsInput: {fileID: 4581344623349137594}
   muteMusicInput: {fileID: 5927523120805226803}
   musicVolumeInput: {fileID: 6932859805537910457}
   rowScript: {fileID: 0}
@@ -9659,7 +9659,7 @@ MonoBehaviour:
   waterVelocity: 0.5
   grabbingLeftPaddle: 0
   grabbingRightPaddle: 0
-  mandatoryPaddles: 0
+  allowHands: 0
   rowPointsVisible: 0
   musicMuted: 0
   musicVolume: 0

@@ -1376,8 +1376,8 @@ MonoBehaviour:
   - {fileID: 1234681527}
   - {fileID: 462445728}
   - {fileID: 445229624}
-  requireHoldingPaddlesInput: {fileID: 962625507}
-  hideRowingPointsInput: {fileID: 1007844135}
+  allowUsingHandsInput: {fileID: 962625507}
+  showRowingPointsInput: {fileID: 1007844135}
   muteMusicInput: {fileID: 425453892}
   musicVolumeInput: {fileID: 1841952734}
   tutorialPage: 0
@@ -3570,44 +3570,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 719843365}
   m_CullTransparentMesh: 1
---- !u!84 &723423367
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: WaterDepthMap
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 5
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 0
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &735517973
 GameObject:
   m_ObjectHideFlags: 0
@@ -5122,7 +5084,7 @@ GameObject:
   - component: {fileID: 962625506}
   - component: {fileID: 962625507}
   m_Layer: 5
-  m_Name: Require Holding Paddles
+  m_Name: Allow Rowing with Hands
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5198,7 +5160,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 290865856}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: ChangeRequirePaddles
+        m_MethodName: ChangeAllowHands
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5279,7 +5241,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Require Holding Paddles
+  m_Text: Allow Rowing with Hands
 --- !u!222 &970838710
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5288,6 +5250,44 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 970838707}
   m_CullTransparentMesh: 1
+--- !u!84 &973018972
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WaterDepthMap
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &1007844133
 GameObject:
   m_ObjectHideFlags: 0
@@ -5299,7 +5299,7 @@ GameObject:
   - component: {fileID: 1007844134}
   - component: {fileID: 1007844135}
   m_Layer: 5
-  m_Name: Hide Rowing Guides
+  m_Name: Show Rowing Guides
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5375,7 +5375,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 290865856}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: ChangeHidePoints
+        m_MethodName: ChangeShowPoints
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5893,7 +5893,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _depthTex
       value: 
-      objectReference: {fileID: 723423367}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6767,7 +6767,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Hide Rowing Guides
+  m_Text: Show Rowing Guides
 --- !u!222 &1330526545
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14124,7 +14124,7 @@ MonoBehaviour:
   waterVelocity: 0.5
   grabbingLeftPaddle: 0
   grabbingRightPaddle: 0
-  mandatoryPaddles: 0
+  allowHands: 0
   rowPointsVisible: 0
   musicMuted: 0
   musicVolume: 0

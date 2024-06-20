@@ -17,8 +17,8 @@ public class MainMenu : MonoBehaviour
     public GameObject playerCamera;
     public Button[] levelButtons;
     public TextMeshProUGUI[] levelTimeTexts;
-    public Toggle requireHoldingPaddlesInput;
-    public Toggle hideRowingPointsInput;
+    public Toggle allowUsingHandsInput;
+    public Toggle showRowingPointsInput;
     public Toggle muteMusicInput;
     public Slider musicVolumeInput;
 
@@ -310,14 +310,14 @@ public class MainMenu : MonoBehaviour
 
     private void InitializeSettings()
     {
-        if (!PlayerPrefs.HasKey("MandatoryPaddles"))
+        if (!PlayerPrefs.HasKey("AllowHands"))
         {
-            PlayerPrefs.SetInt("MandatoryPaddles", 0);
+            PlayerPrefs.SetInt("AllowHands", 0);
         }
 
-        if (!PlayerPrefs.HasKey("HidePoints"))
+        if (!PlayerPrefs.HasKey("ShowPoints"))
         {
-            PlayerPrefs.SetInt("HidePoints", 0);
+            PlayerPrefs.SetInt("ShowPoints", 0);
         }
 
         if (!PlayerPrefs.HasKey("MuteMusic"))
@@ -330,24 +330,24 @@ public class MainMenu : MonoBehaviour
             PlayerPrefs.SetFloat("MusicVolume", 0.5f);
         }
 
-        int mandatoryPaddles = PlayerPrefs.GetInt("MandatoryPaddles");
-        if (mandatoryPaddles == 0)
+        int allowHands = PlayerPrefs.GetInt("AllowHands");
+        if (allowHands == 0)
         {
-            requireHoldingPaddlesInput.isOn = false;
+            allowUsingHandsInput.isOn = false;
         }
         else
         {
-            requireHoldingPaddlesInput.isOn = true;
+            allowUsingHandsInput.isOn = true;
         }
 
-        int hidePoints = PlayerPrefs.GetInt("HidePoints");
-        if (hidePoints == 0)
+        int showPoints = PlayerPrefs.GetInt("ShowPoints");
+        if (showPoints == 0)
         {
-            hideRowingPointsInput.isOn = false;
+            showRowingPointsInput.isOn = false;
         }
         else
         {
-            hideRowingPointsInput.isOn = true;
+            showRowingPointsInput.isOn = true;
         }
 
         int muteMusic = PlayerPrefs.GetInt("MuteMusic");
@@ -366,27 +366,27 @@ public class MainMenu : MonoBehaviour
         music.UpdateMusic();
     }
 
-    public void ChangeRequirePaddles()
+    public void ChangeAllowHands()
     {
-        if (requireHoldingPaddlesInput.isOn)
+        if (allowUsingHandsInput.isOn)
         {
-            PlayerPrefs.SetInt("MandatoryPaddles", 1);
+            PlayerPrefs.SetInt("AllowHands", 1);
         }
         else
         {
-            PlayerPrefs.SetInt("MandatoryPaddles", 0);
+            PlayerPrefs.SetInt("AllowHands", 0);
         }
     }
 
-    public void ChangeHidePoints()
+    public void ChangeShowPoints()
     {
-        if (hideRowingPointsInput.isOn)
+        if (showRowingPointsInput.isOn)
         {
-            PlayerPrefs.SetInt("HidePoints", 1);
+            PlayerPrefs.SetInt("ShowPoints", 1);
         }
         else
         {
-            PlayerPrefs.SetInt("HidePoints", 0);
+            PlayerPrefs.SetInt("ShowPoints", 0);
         }
     }
 
@@ -417,8 +417,8 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.SetInt("Level2", 0);
         PlayerPrefs.SetInt("Level3", 0);
         PlayerPrefs.SetInt("Endless", 0);
-        PlayerPrefs.SetInt("MandatoryPaddles", 0);
-        PlayerPrefs.SetInt("HidePoints", 0);
+        PlayerPrefs.SetInt("AllowHands", 0);
+        PlayerPrefs.SetInt("ShowPoints", 0);
         PlayerPrefs.SetInt("MuteMusic", 0);
         PlayerPrefs.SetFloat("MusicVolume", 0.5f);
         PlayerPrefs.DeleteKey("TutorialTime");

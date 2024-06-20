@@ -8,8 +8,8 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject startMenu;
     public GameObject settingsMenu;
-    public Toggle requireHoldingPaddlesInput;
-    public Toggle hideRowingPointsInput;
+    public Toggle allowUsingHandsInput;
+    public Toggle showRowingPointsInput;
     public Toggle muteMusicInput;
     public Slider musicVolumeInput;
 
@@ -69,14 +69,14 @@ public class PauseMenu : MonoBehaviour
 
     private void InitializeSettings()
     {
-        if (!PlayerPrefs.HasKey("MandatoryPaddles"))
+        if (!PlayerPrefs.HasKey("AllowHands"))
         {
-            PlayerPrefs.SetInt("MandatoryPaddles", 0);
+            PlayerPrefs.SetInt("AllowHands", 0);
         }
 
-        if (!PlayerPrefs.HasKey("HidePoints"))
+        if (!PlayerPrefs.HasKey("ShowPoints"))
         {
-            PlayerPrefs.SetInt("HidePoints", 0);
+            PlayerPrefs.SetInt("ShowPoints", 0);
         }
 
         if (!PlayerPrefs.HasKey("MuteMusic"))
@@ -89,24 +89,24 @@ public class PauseMenu : MonoBehaviour
             PlayerPrefs.SetFloat("MusicVolume", 0.5f);
         }
 
-        int mandatoryPaddles = PlayerPrefs.GetInt("MandatoryPaddles");
-        if (mandatoryPaddles == 0)
+        int allowHands = PlayerPrefs.GetInt("AllowHands");
+        if (allowHands == 0)
         {
-            requireHoldingPaddlesInput.isOn = false;
+            allowUsingHandsInput.isOn = false;
         }
         else
         {
-            requireHoldingPaddlesInput.isOn = true;
+            allowUsingHandsInput.isOn = true;
         }
 
-        int hidePoints = PlayerPrefs.GetInt("HidePoints");
-        if (hidePoints == 0)
+        int showPoints = PlayerPrefs.GetInt("ShowPoints");
+        if (showPoints == 0)
         {
-            hideRowingPointsInput.isOn = false;
+            showRowingPointsInput.isOn = false;
         }
         else
         {
-            hideRowingPointsInput.isOn = true;
+            showRowingPointsInput.isOn = true;
         }
 
         int muteMusic = PlayerPrefs.GetInt("MuteMusic");
@@ -125,30 +125,30 @@ public class PauseMenu : MonoBehaviour
         music.UpdateMusic();
     }
 
-    public void ChangeRequirePaddles()
+    public void ChangeAllowHands()
     {
-        if (requireHoldingPaddlesInput.isOn)
+        if (allowUsingHandsInput.isOn)
         {
-            PlayerPrefs.SetInt("MandatoryPaddles", 1);
-            rowScript.mandatoryPaddles = true;
+            PlayerPrefs.SetInt("AllowHands", 1);
+            rowScript.allowHands = true;
         }
         else
         {
-            PlayerPrefs.SetInt("MandatoryPaddles", 0);
-            rowScript.mandatoryPaddles = false;
+            PlayerPrefs.SetInt("AllowHands", 0);
+            rowScript.allowHands = false;
         }
     }
 
-    public void ChangeHidePoints()
+    public void ChangeShowPoints()
     {
-        if (hideRowingPointsInput.isOn)
+        if (showRowingPointsInput.isOn)
         {
-            PlayerPrefs.SetInt("HidePoints", 1);
+            PlayerPrefs.SetInt("ShowPoints", 1);
             rowScript.rowPointsVisible = false;
         }
         else
         {
-            PlayerPrefs.SetInt("HidePoints", 0);
+            PlayerPrefs.SetInt("ShowPoints", 0);
             rowScript.rowPointsVisible = true;
         }
     }

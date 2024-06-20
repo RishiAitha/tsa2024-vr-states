@@ -64,7 +64,7 @@ public class DetectRowing : MonoBehaviour
     public bool grabbingRightPaddle;
 
     // Set if grabbing the paddles is mandatory
-    public bool mandatoryPaddles;
+    public bool allowHands;
 
     // Set if row points are visible
     public bool rowPointsVisible;
@@ -161,22 +161,22 @@ public class DetectRowing : MonoBehaviour
 
     public void InitializeSettings()
     {
-        if (PlayerPrefs.GetInt("MandatoryPaddles") == 1)
+        if (PlayerPrefs.GetInt("AllowHands") == 1)
         {
-            mandatoryPaddles = true;
+            allowHands = true;
         }
         else
         {
-            mandatoryPaddles = false;
+            allowHands = false;
         }
 
-        if (PlayerPrefs.GetInt("HidePoints") == 1)
+        if (PlayerPrefs.GetInt("ShowPoints") == 1)
         {
-            rowPointsVisible = false;
+            rowPointsVisible = true;
         }
         else
         {
-            rowPointsVisible = true;
+            rowPointsVisible = false;
         }
 
         if (PlayerPrefs.GetInt("MuteMusic") == 1)
@@ -204,7 +204,7 @@ public class DetectRowing : MonoBehaviour
     {
         if (GameRunning() && !knockback)
         {
-            if ((mandatoryPaddles && grabbingLeftPaddle) || !mandatoryPaddles)
+            if ((!allowHands && grabbingLeftPaddle) || allowHands)
             {
                 leftStarted = true;
 
@@ -219,7 +219,7 @@ public class DetectRowing : MonoBehaviour
     {
         if (GameRunning() && !knockback)
         {
-            if ((mandatoryPaddles && grabbingLeftPaddle) || !mandatoryPaddles)
+            if ((!allowHands && grabbingLeftPaddle) || allowHands)
             {
                 // If the motion has already started
                 if (leftStarted)
@@ -253,7 +253,7 @@ public class DetectRowing : MonoBehaviour
     {
         if (GameRunning() && !knockback)
         {
-            if ((mandatoryPaddles && grabbingRightPaddle) || !mandatoryPaddles)
+            if ((!allowHands && grabbingRightPaddle) || allowHands)
             {
                 rightStarted = true;
 
@@ -266,7 +266,7 @@ public class DetectRowing : MonoBehaviour
     {
         if (GameRunning() && !knockback)
         {
-            if ((mandatoryPaddles && grabbingRightPaddle) || !mandatoryPaddles)
+            if ((!allowHands && grabbingRightPaddle) || allowHands)
             {
                 if (rightStarted)
                 {
