@@ -9645,8 +9645,8 @@ MonoBehaviour:
   rightStartBody: {fileID: 5610038519720231632}
   rightEndBody: {fileID: 1586875132175050797}
   boatBody: {fileID: 5984454909404753652}
-  leftPaddleBody: {fileID: 0}
-  rightPaddleBody: {fileID: 0}
+  leftPaddleBody: {fileID: 8212321321216210397}
+  rightPaddleBody: {fileID: 3552394273454255538}
   rowAcceleration: 5
   rowFinishDelay: 3
   rowMatchDelay: 2
