@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class EndlessBlock : MonoBehaviour
@@ -49,6 +50,10 @@ public class EndlessBlock : MonoBehaviour
         if (obstacle.GetComponent<SpeedRing>() != null || obstacle.GetComponent<SlowRing>() != null)
         {
             obstacle.transform.localPosition = new Vector3(Random.Range(leftBound, rightBound), -1.6f, z);
+        }
+        else if (obstacle.name == "Rock_07(Clone)" || obstacle.name == "Rock_08(Clone)" || obstacle.name == "Rock_09(Clone)")
+        {
+            obstacle.transform.localPosition = new Vector3(Random.Range(leftBound, rightBound), -2.7f, z);
         }
         else
         {

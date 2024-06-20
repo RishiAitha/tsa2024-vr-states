@@ -16323,7 +16323,7 @@ RenderTexture:
   m_TextureSettings:
     serializedVersion: 2
     m_FilterMode: 1
-    m_Aniso: 1
+    m_Aniso: 0
     m_MipBias: 0
     m_WrapU: 1
     m_WrapV: 1
@@ -17492,7 +17492,7 @@ PrefabInstance:
     - target: {fileID: 3861894819865720379, guid: c4ce77fae258db1419fe426be4a51bbb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 29.969814
+      value: 30.05
       objectReference: {fileID: 0}
     - target: {fileID: 3861894819865720379, guid: c4ce77fae258db1419fe426be4a51bbb,
         type: 3}
@@ -17502,7 +17502,7 @@ PrefabInstance:
     - target: {fileID: 3861894819865720379, guid: c4ce77fae258db1419fe426be4a51bbb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 70.45459
+      value: 70.71
       objectReference: {fileID: 0}
     - target: {fileID: 3861894819865720379, guid: c4ce77fae258db1419fe426be4a51bbb,
         type: 3}

@@ -870,7 +870,7 @@ RenderTexture:
   m_TextureSettings:
     serializedVersion: 2
     m_FilterMode: 1
-    m_Aniso: 1
+    m_Aniso: 0
     m_MipBias: 0
     m_WrapU: 1
     m_WrapV: 1
@@ -14878,9 +14878,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1093948892}
   - component: {fileID: 1093948893}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Rock Wall
-  m_TagString: Untagged
+  m_TagString: Walls
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24689,15 +24689,15 @@ MonoBehaviour:
   - {fileID: 1357329206}
   rockWall: {fileID: 1093948891}
   obstaclePrefabs:
-  - {fileID: 6013493184626062807, guid: acd8c2b4dbc2a8d47b05a23f21696f3c, type: 3}
-  - {fileID: 8246039520237619257, guid: 6ab90840c56d0884aa1e3fb313ae1408, type: 3}
-  - {fileID: 2534915334905718461, guid: 3faa4f216f066944587606591c02a4b2, type: 3}
   - {fileID: 166554480368454815, guid: f74a0c4ae18bf98418dc4c45c5812763, type: 3}
   - {fileID: 5703395953140221062, guid: 6c172782306e38a44b8d5bbba0ef8897, type: 3}
   - {fileID: 476113991665903322, guid: 6dcb985027b45164aacbee49a4127b89, type: 3}
   - {fileID: 5419597149085029007, guid: 0808d7bf665836c40afaa7e129f64635, type: 3}
   - {fileID: 2524092911489195861, guid: 3448610b98785904e93a66efade58792, type: 3}
   - {fileID: 8481696657530947718, guid: dd272c8e0a4cfa346b4d6430c5c44c23, type: 3}
+  - {fileID: 7909322221040392895, guid: 0f73d33417fe8cc459c84021044c69f2, type: 3}
+  - {fileID: 8246039520237619257, guid: 6ab90840c56d0884aa1e3fb313ae1408, type: 3}
+  - {fileID: 2534915334905718461, guid: 3faa4f216f066944587606591c02a4b2, type: 3}
   - {fileID: 5494807227892530818, guid: 800a776414433db478ebfe50c3750cd2, type: 3}
   - {fileID: 4623686418962624143, guid: 2d161f450ad3d734a96bb5d43f4381a3, type: 3}
 --- !u!1001 &1805683367
