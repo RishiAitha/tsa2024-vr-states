@@ -77,9 +77,9 @@ public class PauseMenu : MonoBehaviour
 
     private void InitializeSettings()
     {
-        if (!PlayerPrefs.HasKey("AllowHands"))
+        if (!PlayerPrefs.HasKey("UsingHands"))
         {
-            PlayerPrefs.SetInt("AllowHands", 0);
+            PlayerPrefs.SetInt("UsingHands", 0);
         }
 
         if (!PlayerPrefs.HasKey("ShowPoints"))
@@ -97,8 +97,8 @@ public class PauseMenu : MonoBehaviour
             PlayerPrefs.SetFloat("MusicVolume", 0.5f);
         }
 
-        int allowHands = PlayerPrefs.GetInt("AllowHands");
-        if (allowHands == 0)
+        int usingHands = PlayerPrefs.GetInt("UsingHands");
+        if (usingHands == 0)
         {
             allowUsingHandsInput.isOn = false;
         }
@@ -133,17 +133,17 @@ public class PauseMenu : MonoBehaviour
         music.UpdateMusic();
     }
 
-    public void ChangeAllowHands()
+    public void ChangeUsingHands()
     {
         if (allowUsingHandsInput.isOn)
         {
-            PlayerPrefs.SetInt("AllowHands", 1);
-            rowScript.allowHands = true;
+            PlayerPrefs.SetInt("UsingHands", 1);
+            rowScript.usingHands = true;
         }
         else
         {
-            PlayerPrefs.SetInt("AllowHands", 0);
-            rowScript.allowHands = false;
+            PlayerPrefs.SetInt("UsingHands", 0);
+            rowScript.usingHands = false;
         }
     }
 

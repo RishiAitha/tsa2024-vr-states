@@ -31,6 +31,7 @@ public class MainMenu : MonoBehaviour
 
     public void Start()
     {
+        IntroInfo.PerformIntro = false;
         startMenu.SetActive(true);
         levelMenu.SetActive(false);
         settingsMenu.SetActive(false);
@@ -98,6 +99,22 @@ public class MainMenu : MonoBehaviour
                 }
 
                 yield return null;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < introObjects.Length; i++)
+            {
+                introObjects[i].GetComponent<Animator>().enabled = false;
+                Vector3 objPos = introObjects[i].transform.position;
+                if (i < introObjects.Length - 1)
+                {
+                    introObjects[i].transform.position = new Vector3(objPos.x, -2f, objPos.z);
+                }
+                else
+                {
+                    introObjects[i].transform.position = new Vector3(objPos.x, 1f, objPos.z);
+                }
             }
         }
     }
@@ -368,9 +385,9 @@ public class MainMenu : MonoBehaviour
 
     private void InitializeSettings()
     {
-        if (!PlayerPrefs.HasKey("AllowHands"))
+        if (!PlayerPrefs.HasKey("UsingHands"))
         {
-            PlayerPrefs.SetInt("AllowHands", 0);
+            PlayerPrefs.SetInt("UsingHands", 0);
         }
 
         if (!PlayerPrefs.HasKey("ShowPoints"))
@@ -388,8 +405,8 @@ public class MainMenu : MonoBehaviour
             PlayerPrefs.SetFloat("MusicVolume", 0.5f);
         }
 
-        int allowHands = PlayerPrefs.GetInt("AllowHands");
-        if (allowHands == 0)
+        int usingHands = PlayerPrefs.GetInt("UsingHands");
+        if (usingHands == 0)
         {
             allowUsingHandsInput.isOn = false;
         }
@@ -424,15 +441,15 @@ public class MainMenu : MonoBehaviour
         music.UpdateMusic();
     }
 
-    public void ChangeAllowHands()
+    public void ChangeUsingHands()
     {
         if (allowUsingHandsInput.isOn)
         {
-            PlayerPrefs.SetInt("AllowHands", 1);
+            PlayerPrefs.SetInt("UsingHands", 1);
         }
         else
         {
-            PlayerPrefs.SetInt("AllowHands", 0);
+            PlayerPrefs.SetInt("UsingHands", 0);
         }
     }
 
@@ -475,7 +492,7 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.SetInt("Level2", 0);
         PlayerPrefs.SetInt("Level3", 0);
         PlayerPrefs.SetInt("Endless", 0);
-        PlayerPrefs.SetInt("AllowHands", 0);
+        PlayerPrefs.SetInt("UsingHands", 0);
         PlayerPrefs.SetInt("ShowPoints", 0);
         PlayerPrefs.SetInt("MuteMusic", 0);
         PlayerPrefs.SetFloat("MusicVolume", 0.5f);

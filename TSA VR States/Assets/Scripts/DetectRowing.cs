@@ -13,6 +13,14 @@ public class DetectRowing : MonoBehaviour
     public bool leftFinished;
     public bool rightFinished;
 
+    // Track if backwards motions have been started
+    public bool leftBackStarted;
+    public bool rightBackStarted;
+
+    // Track if backwards motions have been finished
+    public bool leftBackFinished;
+    public bool rightBackFinished;
+
     // Get Rigidbody for motion
     public Rigidbody myRB;
 
@@ -54,6 +62,13 @@ public class DetectRowing : MonoBehaviour
     // Set amount of time it takes to start a turn
     public float turnDelay;
 
+    // Set amount of time it takes to switch between directions
+    public float directionSwapDelay;
+    private float directionSwapDelayCounter;
+
+    // Track if the player is moving forwards or backwards
+    public bool movingForwards;
+
     // Set water velocity
     public float waterVelocity;
 
@@ -63,8 +78,8 @@ public class DetectRowing : MonoBehaviour
     // Track when the player is grabbing the right paddle
     public bool grabbingRightPaddle;
 
-    // Set if grabbing the paddles is mandatory
-    public bool allowHands;
+    // Set if the player is using their hands to row
+    public bool usingHands;
 
     // Set if row points are visible
     public bool rowPointsVisible;
@@ -125,30 +140,45 @@ public class DetectRowing : MonoBehaviour
 
         if (GameRunning() && !knockback)
         {
+            directionSwapDelayCounter -= Time.deltaTime;
+
             if (currentVelocity > 0)
             {
                 currentVelocity -= deceleration * Time.deltaTime;
             }
 
-            if (leftFinished && rightFinished)
+            if ((leftFinished && rightFinished) || (leftBackFinished && rightBackFinished))
             {
                 // Cancel previous match motion timers
                 CancelInvoke("ResetLeft");
                 CancelInvoke("ResetRight");
+                CancelInvoke("ResetBackLeft");
+                CancelInvoke("ResetBackRight");
 
                 // Cancel all turning
                 CancelInvoke("TurnRight");
                 CancelInvoke("TurnLeft");
 
-                ResetLeft();
-                ResetRight();
-
-                if (currentVelocity < maxVelocity)
+                if ((movingForwards || directionSwapDelayCounter < 0f) && (leftFinished && rightFinished) && currentVelocity < maxVelocity)
                 {
+                    movingForwards = true;
+                    directionSwapDelayCounter = directionSwapDelay;
+
                     currentVelocity += rowAcceleration;
                 }
-            }
+                else if ((!movingForwards || directionSwapDelayCounter < 0f) && (leftBackFinished && rightBackFinished) && currentVelocity > -(maxVelocity / 2))
+                {
+                    movingForwards = false;
+                    directionSwapDelayCounter = directionSwapDelay;
 
+                    currentVelocity -= rowAcceleration;
+                }
+
+                ResetLeft();
+                ResetRight();
+                ResetBackLeft();
+                ResetBackRight();
+            }
 
             StartMotion();
         }
@@ -161,13 +191,13 @@ public class DetectRowing : MonoBehaviour
 
     public void InitializeSettings()
     {
-        if (PlayerPrefs.GetInt("AllowHands") == 1)
+        if (PlayerPrefs.GetInt("UsingHands") == 1)
         {
-            allowHands = true;
+            usingHands = true;
         }
         else
         {
-            allowHands = false;
+            usingHands = false;
         }
 
         if (PlayerPrefs.GetInt("ShowPoints") == 1)
@@ -204,12 +234,23 @@ public class DetectRowing : MonoBehaviour
     {
         if (GameRunning() && !knockback)
         {
-            if ((!allowHands && grabbingLeftPaddle) || allowHands)
+            if ((!usingHands && grabbingLeftPaddle) || (usingHands && !grabbingLeftPaddle))
             {
-                leftStarted = true;
+                if (leftBackStarted)
+                {
+                    leftBackFinished = true;
 
-                // Wait some time for the user to finish their motion
-                Invoke("ResetLeft", rowFinishDelay);
+                    CancelInvoke("ResetBackLeft");
+
+                    Invoke("ResetBackLeft", rowMatchDelay);
+                }
+                else
+                {
+                    leftStarted = true;
+
+                    // Wait some time for the user to finish their motion
+                    Invoke("ResetLeft", rowFinishDelay);
+                }
             }
         }
     }
@@ -219,7 +260,7 @@ public class DetectRowing : MonoBehaviour
     {
         if (GameRunning() && !knockback)
         {
-            if ((!allowHands && grabbingLeftPaddle) || allowHands)
+            if ((!usingHands && grabbingLeftPaddle) || (usingHands && !grabbingLeftPaddle))
             {
                 // If the motion has already started
                 if (leftStarted)
@@ -236,6 +277,12 @@ public class DetectRowing : MonoBehaviour
                     // The motion will reset before they can move forward
                     Invoke("ResetLeft", rowMatchDelay);
                 }
+                else
+                {
+                    leftBackStarted = true;
+
+                    Invoke("ResetBackLeft", rowFinishDelay);
+                }
             }
         }
     }
@@ -249,15 +296,35 @@ public class DetectRowing : MonoBehaviour
         }
     }
 
+    private void ResetBackLeft()
+    {
+        if (GameRunning())
+        {
+            leftBackStarted = false;
+            leftBackFinished = false;
+        }
+    }
+
     public void RightStart()
     {
         if (GameRunning() && !knockback)
         {
-            if ((!allowHands && grabbingRightPaddle) || allowHands)
+            if ((!usingHands && grabbingRightPaddle) || (usingHands && !grabbingRightPaddle))
             {
-                rightStarted = true;
+                if (rightBackStarted)
+                {
+                    rightBackFinished = true;
 
-                Invoke("ResetRight", rowMatchDelay);
+                    CancelInvoke("ResetBackRight");
+
+                    Invoke("ResetBackRight", rowMatchDelay);
+                }
+                else
+                {
+                    rightStarted = true;
+
+                    Invoke("ResetRight", rowFinishDelay);
+                }
             }
         }
     }
@@ -266,17 +333,23 @@ public class DetectRowing : MonoBehaviour
     {
         if (GameRunning() && !knockback)
         {
-            if ((!allowHands && grabbingRightPaddle) || allowHands)
+            if ((!usingHands && grabbingRightPaddle) || (usingHands && !grabbingRightPaddle))
             {
                 if (rightStarted)
                 {
                     rightFinished = true;
 
-                    CancelInvoke("ResetLeft");
+                    CancelInvoke("ResetRight");
 
                     Invoke("TurnLeft", turnDelay);
 
                     Invoke("ResetRight", rowMatchDelay);
+                }
+                else
+                {
+                    rightBackStarted = true;
+
+                    Invoke("ResetBackRight", rowFinishDelay);
                 }
             }
         }
@@ -288,6 +361,15 @@ public class DetectRowing : MonoBehaviour
         {
             rightStarted = false;
             rightFinished = false;
+        }
+    }
+
+    private void ResetBackRight()
+    {
+        if (GameRunning())
+        {
+            rightBackStarted = false;
+            rightBackFinished = false;
         }
     }
 

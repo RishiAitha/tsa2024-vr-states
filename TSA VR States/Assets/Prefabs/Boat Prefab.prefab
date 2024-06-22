@@ -1149,7 +1149,7 @@ GameObject:
   - component: {fileID: 6634053089337359120}
   - component: {fileID: 7548171349817095710}
   m_Layer: 5
-  m_Name: Allow Rowing with Hands
+  m_Name: Use Hands to Row
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1225,7 +1225,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6840541583796916651}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: ChangeAllowHands
+        m_MethodName: ChangeUsingHands
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7111,7 +7111,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Allow Rowing with Hands
+  m_Text: Use Hands to Row
 --- !u!1 &4898745540992201298
 GameObject:
   m_ObjectHideFlags: 0
@@ -9738,6 +9738,10 @@ MonoBehaviour:
   rightStarted: 0
   leftFinished: 0
   rightFinished: 0
+  leftBackStarted: 0
+  rightBackStarted: 0
+  leftBackFinished: 0
+  rightBackFinished: 0
   myRB: {fileID: 0}
   leftStartBody: {fileID: 2810540278163327885}
   leftEndBody: {fileID: 3578852510966629042}
@@ -9755,10 +9759,12 @@ MonoBehaviour:
   rotationAmount: 12.5
   rotationTime: 0.5
   turnDelay: 0.1
+  directionSwapDelay: 0
+  movingForwards: 0
   waterVelocity: 0.5
   grabbingLeftPaddle: 0
   grabbingRightPaddle: 0
-  allowHands: 0
+  usingHands: 0
   rowPointsVisible: 0
   musicMuted: 0
   musicVolume: 0
