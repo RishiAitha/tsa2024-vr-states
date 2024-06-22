@@ -2458,6 +2458,7 @@ GameObject:
   - component: {fileID: 806462852}
   - component: {fileID: 806462854}
   - component: {fileID: 806462853}
+  - component: {fileID: 806462855}
   m_Layer: 5
   m_Name: Info Text
   m_TagString: Untagged
@@ -2504,9 +2505,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "This game is a seated experience.\nYou may need to reset your VR camera
-    position from your headset.\nWe hope you enjoy!\n\nHold \u2261 (menu) for 1 second\nto
-    start the game."
+  m_text: 'This game is a seated experience.
+
+    You may need to recalibrate your
+    VR camera position for your headset during gameplay.
+
+    We hope you enjoy!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7e986f8f2b94b4146bee42e6c4e8b36a, type: 2}
   m_sharedMaterial: {fileID: 4520865462412832701, guid: 7e986f8f2b94b4146bee42e6c4e8b36a,
@@ -2584,6 +2588,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 806462851}
   m_CullTransparentMesh: 1
+--- !u!114 &806462855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806462851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff7e2a33d6f7c4e49927fe894766e675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeTime: 10
+  text: {fileID: 806462853}
 --- !u!1 &858321262
 GameObject:
   m_ObjectHideFlags: 0
@@ -2677,7 +2695,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1937890552}
-  - {fileID: 1632002192}
   m_Father: {fileID: 172683487}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &960280978
@@ -3232,6 +3249,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1632002192}
   - {fileID: 172683487}
   - {fileID: 1955992374}
   - {fileID: 1683870871}
@@ -3303,7 +3321,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 806462852}
-  m_Father: {fileID: 927626762}
+  m_Father: {fileID: 1490725633}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4591,6 +4609,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1721912874}
+  - component: {fileID: 1721912875}
   m_Layer: 0
   m_Name: Start Controller
   m_TagString: Untagged
@@ -4613,6 +4632,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1721912875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721912873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0689f8688ad2bb54595d53455b825e70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startText: {fileID: 806462851}
 --- !u!1 &1784280261
 GameObject:
   m_ObjectHideFlags: 0

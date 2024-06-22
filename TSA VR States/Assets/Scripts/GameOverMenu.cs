@@ -11,8 +11,16 @@ public class GameOverMenu : MonoBehaviour
         SceneManager.LoadScene(currentScene.name);
     }
 
+    public IEnumerator ExitSequence(string sceneName)
+    {
+        FindObjectOfType<FadeScreen>().FadeOut();
+        yield return new WaitForSeconds(FindObjectOfType<FadeScreen>().fadeTime);
+        SceneManager.LoadScene(sceneName);
+    }
+
     public void MainMenu()
     {
-        SceneManager.LoadScene("Main Menu");
+        IntroInfo.PerformIntro = false;
+        StartCoroutine(ExitSequence("Main Menu"));
     }
 }

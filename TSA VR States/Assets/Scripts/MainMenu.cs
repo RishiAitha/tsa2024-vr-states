@@ -13,7 +13,6 @@ public class MainMenu : MonoBehaviour
     public GameObject settingsMenu;
     public GameObject[] tutorialPages;
     public GameObject[] endlessPages;
-    public GameObject infoCanvas;
     public GameObject playerCamera;
     public Button[] levelButtons;
     public TextMeshProUGUI[] levelTimeTexts;
@@ -21,6 +20,9 @@ public class MainMenu : MonoBehaviour
     public Toggle showRowingPointsInput;
     public Toggle muteMusicInput;
     public Slider musicVolumeInput;
+    public float introTime;
+    public GameObject origin;
+    public GameObject[] introObjects;
 
     private MusicController music;
 
@@ -48,12 +50,68 @@ public class MainMenu : MonoBehaviour
 
         InitializeSettings();
         InitializeLevels();
+
+        StartCoroutine("IntroSequence");
+    }
+
+    public IEnumerator IntroSequence()
+    {
+        if (!IntroInfo.PerformIntro)
+        {
+            origin.transform.position = Vector3.zero;
+        }
+
+        FindObjectOfType<FadeScreen>().FadeIn();
+
+        yield return new WaitForSeconds(FindObjectOfType<FadeScreen>().fadeTime);
+
+        if (IntroInfo.PerformIntro)
+        {
+            float counter = 0f;
+            float distance = Mathf.Abs(Vector3.Distance(origin.transform.position, Vector3.zero));
+
+            while (counter < introTime)
+            {
+                counter += Time.deltaTime;
+
+                origin.transform.position = Vector3.MoveTowards(origin.transform.position, Vector3.zero, (distance / introTime) * Time.deltaTime);
+
+                int length = introObjects.Length;
+                for (int i = 0; i < length; i++)
+                {
+                    float startingTime = (introTime / length) * i;
+                    float endingTime = startingTime + (introTime / length);
+                    if (counter > startingTime && counter < endingTime)
+                    {
+                        if (!introObjects[i].GetComponent<Animator>().GetBool("rise"))
+                        {
+                            introObjects[i].GetComponent<Animator>().SetBool("rise", true);
+                        }
+                    }
+                    else if (counter > endingTime)
+                    {
+                        if (introObjects[i].GetComponent<Animator>().enabled)
+                        {
+                            introObjects[i].GetComponent<Animator>().enabled = false;
+                        }
+                    }
+                }
+
+                yield return null;
+            }
+        }
+    }
+
+    public IEnumerator ExitSequence(string sceneName)
+    {
+        FindObjectOfType<FadeScreen>().FadeOut();
+        yield return new WaitForSeconds(FindObjectOfType<FadeScreen>().fadeTime);
+        SceneManager.LoadScene(sceneName);
     }
 
     public void Update()
     {
         transform.position = new Vector3(transform.position.x, playerCamera.transform.position.y - 0.176f, transform.position.z);
-        infoCanvas.transform.position = new Vector3(infoCanvas.transform.position.x, playerCamera.transform.position.y - 0.176f, infoCanvas.transform.position.z);
     }
 
     public void OpenLevelSelect()
@@ -130,7 +188,7 @@ public class MainMenu : MonoBehaviour
 
         if (tutorialPage >= tutorialPages.Length)
         {
-            SceneManager.LoadScene("Level Tutorial");
+            StartCoroutine(ExitSequence("Level Tutorial"));
         }
         else
         {
@@ -192,7 +250,7 @@ public class MainMenu : MonoBehaviour
 
         if (endlessPage >= endlessPages.Length)
         {
-            SceneManager.LoadScene("Endless");
+            StartCoroutine(ExitSequence("Endless"));
         }
         else
         {
@@ -297,15 +355,15 @@ public class MainMenu : MonoBehaviour
 
     public void LoadLevel1()
     {
-        SceneManager.LoadScene("Level 1");
+        StartCoroutine(ExitSequence("Level 1"));
     }
     public void LoadLevel2()
     {
-        SceneManager.LoadScene("Level 2");
+        StartCoroutine(ExitSequence("Level 2"));
     }
     public void LoadLevel3()
     {
-        SceneManager.LoadScene("Level 3");
+        StartCoroutine(ExitSequence("Level 3"));
     }
 
     private void InitializeSettings()
@@ -426,6 +484,6 @@ public class MainMenu : MonoBehaviour
         PlayerPrefs.DeleteKey("Level2Time");
         PlayerPrefs.DeleteKey("Level3Time");
         PlayerPrefs.DeleteKey("EndlessScore");
-        SceneManager.LoadScene("Main Menu");
+        StartCoroutine(ExitSequence("Start Menu"));
     }
 }

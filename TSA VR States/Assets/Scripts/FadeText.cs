@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
-public class FadeScreen : MonoBehaviour
+public class FadeText : MonoBehaviour
 {
-    public float fadeTime = 2f;
-    public Renderer quadRenderer;
+    public float fadeTime = 10f;
+    public TextMeshProUGUI text;
 
     public void FadeIn()
     {
@@ -27,16 +28,16 @@ public class FadeScreen : MonoBehaviour
         float counter = 0;
         while (counter <= fadeTime)
         {
-            Color newColor = quadRenderer.material.color;
+            Color newColor = text.color;
             newColor.a = Mathf.Lerp(aStart, aEnd, counter / fadeTime);
-            quadRenderer.material.SetColor("_BaseColor", newColor);
+            text.color = newColor;
 
             counter += Time.deltaTime;
             yield return null;
         }
 
-        Color newColor2 = quadRenderer.material.color;
+        Color newColor2 = text.color;
         newColor2.a = aEnd;
-        quadRenderer.material.SetColor("_Color", newColor2);
+        text.color = newColor2;
     }
 }

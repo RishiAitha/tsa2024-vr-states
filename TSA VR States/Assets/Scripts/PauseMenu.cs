@@ -32,15 +32,23 @@ public class PauseMenu : MonoBehaviour
         InitializeSettings();
     }
 
+    public IEnumerator ExitSequence(string sceneName)
+    {
+        FindObjectOfType<FadeScreen>().FadeOut();
+        yield return new WaitForSeconds(FindObjectOfType<FadeScreen>().fadeTime);
+        SceneManager.LoadScene(sceneName);
+    }
+
     public void ReloadLevel()
     {
         Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.name);
+        StartCoroutine(ExitSequence(currentScene.name));
     }
 
     public void MainMenu()
     {
-        SceneManager.LoadScene("Main Menu");
+        IntroInfo.PerformIntro = false;
+        StartCoroutine(ExitSequence("Main Menu"));
     }
 
     public void UnPause()

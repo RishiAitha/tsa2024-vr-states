@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -43,8 +44,18 @@ public class LevelManager : MonoBehaviour
 
     private DetectRowing rowScript;
 
+    private bool introFinished;
+
     private void Start()
     {
+        StartCoroutine("StartSequence");
+    }
+
+    public IEnumerator StartSequence()
+    {
+        introFinished = false;
+        FindObjectOfType<FadeScreen>().FadeIn();
+        yield return new WaitForSeconds(FindObjectOfType<FadeScreen>().fadeTime);
         rowScript = FindObjectOfType<DetectRowing>();
         countdownTimeCounter = countdownTime;
         levelTimeCounter = levelTime;
@@ -57,50 +68,55 @@ public class LevelManager : MonoBehaviour
         countdownDisplay.SetActive(true);
         timerDisplay.SetActive(false);
         victoryMenu.SetActive(false);
+
+        introFinished = true;
     }
 
     private void Update()
     {
-        if (gameStarted)
+        if (introFinished)
         {
-            if (menuInteraction.action.triggered)
+            if (gameStarted)
             {
-                if (pauseOpen)
+                if (menuInteraction.action.triggered)
                 {
-                    UnPause();
+                    if (pauseOpen)
+                    {
+                        UnPause();
+                    }
+                    else
+                    {
+                        Pause();
+                    }
                 }
-                else
+                if (gameRunning)
                 {
-                    Pause();
+                    if (levelTimeCounter > 0f)
+                    {
+                        levelTimeCounter -= Time.deltaTime;
+                        currentTime += Time.deltaTime;
+                        timerText.text = ((int)levelTimeCounter + 1).ToString();
+                    }
+                    else
+                    {
+                        GameOver();
+                    }
                 }
-            }
-            if (gameRunning)
-            {
-                if (levelTimeCounter > 0f)
-                {
-                    levelTimeCounter -= Time.deltaTime;
-                    currentTime += Time.deltaTime;
-                    timerText.text = ((int)levelTimeCounter + 1).ToString();
-                }
-                else
-                {
-                    GameOver();
-                }
-            }
-        }
-        else
-        {
-            if (countdownTimeCounter > 0f)
-            {
-                countdownTimeCounter -= Time.deltaTime;
-                countdownText.text = ((int)countdownTimeCounter + 1).ToString();
             }
             else
             {
-                gameStarted = true;
-                gameRunning = true;
-                countdownDisplay.SetActive(false);
-                timerDisplay.SetActive(true);
+                if (countdownTimeCounter > 0f)
+                {
+                    countdownTimeCounter -= Time.deltaTime;
+                    countdownText.text = ((int)countdownTimeCounter + 1).ToString();
+                }
+                else
+                {
+                    gameStarted = true;
+                    gameRunning = true;
+                    countdownDisplay.SetActive(false);
+                    timerDisplay.SetActive(true);
+                }
             }
         }
     }

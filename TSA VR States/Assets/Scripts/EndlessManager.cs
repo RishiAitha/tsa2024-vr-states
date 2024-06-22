@@ -40,8 +40,18 @@ public class EndlessManager : MonoBehaviour
 
     public GameObject[] obstaclePrefabs;
 
+    private bool introFinished;
+
     private void Start()
     {
+        StartCoroutine("StartSequence");
+    }
+
+    public IEnumerator StartSequence()
+    {
+        introFinished = false;
+        FindObjectOfType<FadeScreen>().FadeIn();
+        yield return new WaitForSeconds(FindObjectOfType<FadeScreen>().fadeTime);
         rowScript = FindObjectOfType<DetectRowing>();
         countdownTimeCounter = countdownTime;
         score = 0;
@@ -58,39 +68,44 @@ public class EndlessManager : MonoBehaviour
             blocks[i].GetComponent<EndlessBlock>().Randomize();
             blocks[i].GetComponent<EndlessBlock>().index = i;
         }
+
+        introFinished = true;
     }
 
     private void Update()
     {
-        if (gameStarted)
+        if (introFinished)
         {
-            if (menuInteraction.action.triggered)
+            if (gameStarted)
             {
-                if (pauseOpen)
+                if (menuInteraction.action.triggered)
                 {
-                    UnPause();
+                    if (pauseOpen)
+                    {
+                        UnPause();
+                    }
+                    else
+                    {
+                        Pause();
+                    }
                 }
-                else
-                {
-                    Pause();
-                }
-            }
 
-            scoreText.text = score.ToString();
-        }
-        else
-        {
-            if (countdownTimeCounter > 0f)
-            {
-                countdownTimeCounter -= Time.deltaTime;
-                countdownText.text = ((int)countdownTimeCounter + 1).ToString();
+                scoreText.text = score.ToString();
             }
             else
             {
-                gameStarted = true;
-                gameRunning = true;
-                countdownDisplay.SetActive(false);
-                scoreDisplay.SetActive(true);
+                if (countdownTimeCounter > 0f)
+                {
+                    countdownTimeCounter -= Time.deltaTime;
+                    countdownText.text = ((int)countdownTimeCounter + 1).ToString();
+                }
+                else
+                {
+                    gameStarted = true;
+                    gameRunning = true;
+                    countdownDisplay.SetActive(false);
+                    scoreDisplay.SetActive(true);
+                }
             }
         }
     }
