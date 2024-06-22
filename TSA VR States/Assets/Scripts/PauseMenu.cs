@@ -152,12 +152,12 @@ public class PauseMenu : MonoBehaviour
         if (showRowingPointsInput.isOn)
         {
             PlayerPrefs.SetInt("ShowPoints", 1);
-            rowScript.rowPointsVisible = false;
+            rowScript.rowPointsVisible = true;
         }
         else
         {
             PlayerPrefs.SetInt("ShowPoints", 0);
-            rowScript.rowPointsVisible = true;
+            rowScript.rowPointsVisible = false;
         }
     }
 
