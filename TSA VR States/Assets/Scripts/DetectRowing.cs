@@ -144,14 +144,14 @@ public class DetectRowing : MonoBehaviour
     {
         // directionSwapDelayCounter -= Time.deltaTime;
         pressingTrigger = leftTrigger.action.ReadValue<float>() > 0f || rightTrigger.action.ReadValue<float>() > 0f;
-        
+
         if (!pressingTrigger)
         {
             if (!movingForwards)
             {
                 movingForwards = true;
-                ResetLeft();
-                ResetRight();
+                ResetBackLeft();
+                ResetBackRight();
             }
         }
         else
@@ -159,8 +159,8 @@ public class DetectRowing : MonoBehaviour
             if (movingForwards)
             {
                 movingForwards = false;
-                ResetBackLeft();
-                ResetBackRight();
+                ResetLeft();
+                ResetRight();
             }
         }
 
@@ -184,7 +184,7 @@ public class DetectRowing : MonoBehaviour
             }
             else
             {
-                directionArrow.transform.localScale = new Vector3(1f, -1f, 1f);
+                directionArrow.transform.localScale = new Vector3(1f, 1f, -1f);
             }
         }
 
@@ -216,7 +216,7 @@ public class DetectRowing : MonoBehaviour
                 {
                     CancelInvoke("TurnRight");
                     CancelInvoke("TurnLeft");
-                    currentVelocity -= rowAcceleration;
+                    currentVelocity -= (rowAcceleration / 2);
                     rowSounds[1].Play();
                     ResetBackLeft();
                     ResetBackRight();
@@ -279,18 +279,24 @@ public class DetectRowing : MonoBehaviour
         {
             if ((!usingHands && grabbingLeftPaddle) || (usingHands && !grabbingLeftPaddle))
             {
-                if (leftBackStarted)
+                if (pressingTrigger && leftBackStarted)
                 {
                     leftBackFinished = true;
 
                     CancelInvoke("ResetBackLeft");
 
+                    Invoke("TurnLeft", turnDelay);
+
                     Invoke("ResetBackLeft", rowMatchDelay);
                 }
-                leftStarted = true;
 
-                // Wait some time for the user to finish their motion
-                Invoke("ResetLeft", rowFinishDelay);
+                if (!pressingTrigger)
+                {
+                    leftStarted = true;
+
+                    // Wait some time for the user to finish their motion
+                    Invoke("ResetLeft", rowFinishDelay);
+                }
             }
         }
     }
@@ -303,7 +309,7 @@ public class DetectRowing : MonoBehaviour
             if ((!usingHands && grabbingLeftPaddle) || (usingHands && !grabbingLeftPaddle))
             {
                 // If the motion has already started
-                if (leftStarted)
+                if (!pressingTrigger && leftStarted)
                 {
                     leftFinished = true;
 
@@ -317,9 +323,13 @@ public class DetectRowing : MonoBehaviour
                     // The motion will reset before they can move forward
                     Invoke("ResetLeft", rowMatchDelay);
                 }
-                leftBackStarted = true;
 
-                Invoke("ResetBackLeft", rowFinishDelay);
+                if (pressingTrigger)
+                {
+                    leftBackStarted = true;
+
+                    Invoke("ResetBackLeft", rowFinishDelay);
+                }
             }
         }
     }
@@ -348,17 +358,23 @@ public class DetectRowing : MonoBehaviour
         {
             if ((!usingHands && grabbingRightPaddle) || (usingHands && !grabbingRightPaddle))
             {
-                if (rightBackStarted)
+                if (pressingTrigger && rightBackStarted)
                 {
                     rightBackFinished = true;
 
                     CancelInvoke("ResetBackRight");
 
+                    Invoke("TurnRight", turnDelay);
+
                     Invoke("ResetBackRight", rowMatchDelay);
                 }
-                rightStarted = true;
 
-                Invoke("ResetRight", rowFinishDelay);
+                if (!pressingTrigger)
+                {
+                    rightStarted = true;
+
+                    Invoke("ResetRight", rowFinishDelay);
+                }
             }
         }
     }
@@ -369,7 +385,7 @@ public class DetectRowing : MonoBehaviour
         {
             if ((!usingHands && grabbingRightPaddle) || (usingHands && !grabbingRightPaddle))
             {
-                if (rightStarted)
+                if (!pressingTrigger && rightStarted)
                 {
                     rightFinished = true;
 
@@ -379,9 +395,13 @@ public class DetectRowing : MonoBehaviour
 
                     Invoke("ResetRight", rowMatchDelay);
                 }
-                rightBackStarted = true;
 
-                Invoke("ResetBackRight", rowFinishDelay);
+                if (pressingTrigger)
+                {
+                    rightBackStarted = true;
+
+                    Invoke("ResetBackRight", rowFinishDelay);
+                }
             }
         }
     }
@@ -411,8 +431,8 @@ public class DetectRowing : MonoBehaviour
         rightStartBody.velocity = myRB.velocity;
         rightEndBody.velocity = myRB.velocity;
         boatBody.velocity = myRB.velocity;
-        leftPaddleBody.velocity = myRB.velocity;
-        rightPaddleBody.velocity = myRB.velocity;
+        //leftPaddleBody.velocity = myRB.velocity;
+        //rightPaddleBody.velocity = myRB.velocity;
     }
 
     private void TurnRight()
@@ -420,6 +440,7 @@ public class DetectRowing : MonoBehaviour
         if (GameRunning() && !knockback)
         {
             ResetLeft();
+            ResetBackRight();
             Quaternion newRotation = Quaternion.Euler(0, transform.eulerAngles.y + rotationAmount, 0);
             StartCoroutine(RotationLerp(newRotation, rotationTime));
             rowSounds[2].Play();
@@ -431,6 +452,7 @@ public class DetectRowing : MonoBehaviour
         if (GameRunning() && !knockback)
         {
             ResetRight();
+            ResetBackLeft();
             Quaternion newRotation = Quaternion.Euler(0, transform.eulerAngles.y - rotationAmount, 0);
             StartCoroutine(RotationLerp(newRotation, rotationTime));
             rowSounds[3].Play();
