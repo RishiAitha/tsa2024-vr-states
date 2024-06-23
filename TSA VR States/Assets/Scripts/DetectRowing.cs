@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class DetectRowing : MonoBehaviour
 {
@@ -62,12 +63,20 @@ public class DetectRowing : MonoBehaviour
     // Set amount of time it takes to start a turn
     public float turnDelay;
 
-    // Set amount of time it takes to switch between directions
-    public float directionSwapDelay;
-    private float directionSwapDelayCounter;
+    // See if player is pressing triggers
+    public InputActionProperty leftTrigger;
+    public InputActionProperty rightTrigger;
 
-    // Track if the player is moving forwards or backwards
+    // Track if player is moving forwards or backwards
     public bool movingForwards;
+
+    // Track if player is pressing a trigger
+    public bool pressingTrigger;
+
+    // Set amount of time player has between switching directions
+    // public float directionSwapDelayForward;
+    // public float directionSwapDelayBackward;
+    // private float directionSwapDelayCounter;
 
     // Set water velocity
     public float waterVelocity;
@@ -106,7 +115,14 @@ public class DetectRowing : MonoBehaviour
     // List of all row points
     public GameObject[] rowPoints;
 
+    // Object of the arrow direction indicator
+    public GameObject directionArrow;
+
+    // Game music manager
     private MusicController music;
+
+    // List of all rowing sounds
+    public AudioSource[] rowSounds;
 
     // Start is called before the first frame update
     void Start()
@@ -126,6 +142,28 @@ public class DetectRowing : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // directionSwapDelayCounter -= Time.deltaTime;
+        pressingTrigger = leftTrigger.action.ReadValue<float>() > 0f || rightTrigger.action.ReadValue<float>() > 0f;
+        
+        if (!pressingTrigger)
+        {
+            if (!movingForwards)
+            {
+                movingForwards = true;
+                ResetLeft();
+                ResetRight();
+            }
+        }
+        else
+        {
+            if (movingForwards)
+            {
+                movingForwards = false;
+                ResetBackLeft();
+                ResetBackRight();
+            }
+        }
+
         foreach (GameObject point in rowPoints)
         {
             if (rowPointsVisible)
@@ -138,10 +176,20 @@ public class DetectRowing : MonoBehaviour
             }
         }
 
+        if (rowPointsVisible)
+        {
+            if (movingForwards)
+            {
+                directionArrow.transform.localScale = Vector3.one;
+            }
+            else
+            {
+                directionArrow.transform.localScale = new Vector3(1f, -1f, 1f);
+            }
+        }
+
         if (GameRunning() && !knockback)
         {
-            directionSwapDelayCounter -= Time.deltaTime;
-
             if (currentVelocity > 0)
             {
                 currentVelocity -= deceleration * Time.deltaTime;
@@ -155,29 +203,24 @@ public class DetectRowing : MonoBehaviour
                 CancelInvoke("ResetBackLeft");
                 CancelInvoke("ResetBackRight");
 
-                // Cancel all turning
-                CancelInvoke("TurnRight");
-                CancelInvoke("TurnLeft");
-
-                if ((movingForwards || directionSwapDelayCounter < 0f) && (leftFinished && rightFinished) && currentVelocity < maxVelocity)
+                if (!pressingTrigger && (leftFinished && rightFinished) && currentVelocity < maxVelocity)
                 {
-                    movingForwards = true;
-                    directionSwapDelayCounter = directionSwapDelay;
-
+                    CancelInvoke("TurnRight");
+                    CancelInvoke("TurnLeft");
                     currentVelocity += rowAcceleration;
+                    rowSounds[0].Play();
+                    ResetLeft();
+                    ResetRight();
                 }
-                else if ((!movingForwards || directionSwapDelayCounter < 0f) && (leftBackFinished && rightBackFinished) && currentVelocity > -(maxVelocity / 2))
+                else if (pressingTrigger && (leftBackFinished && rightBackFinished) && currentVelocity > -(maxVelocity / 2))
                 {
-                    movingForwards = false;
-                    directionSwapDelayCounter = directionSwapDelay;
-
+                    CancelInvoke("TurnRight");
+                    CancelInvoke("TurnLeft");
                     currentVelocity -= rowAcceleration;
+                    rowSounds[1].Play();
+                    ResetBackLeft();
+                    ResetBackRight();
                 }
-
-                ResetLeft();
-                ResetRight();
-                ResetBackLeft();
-                ResetBackRight();
             }
 
             StartMotion();
@@ -244,13 +287,10 @@ public class DetectRowing : MonoBehaviour
 
                     Invoke("ResetBackLeft", rowMatchDelay);
                 }
-                else
-                {
-                    leftStarted = true;
+                leftStarted = true;
 
-                    // Wait some time for the user to finish their motion
-                    Invoke("ResetLeft", rowFinishDelay);
-                }
+                // Wait some time for the user to finish their motion
+                Invoke("ResetLeft", rowFinishDelay);
             }
         }
     }
@@ -277,12 +317,9 @@ public class DetectRowing : MonoBehaviour
                     // The motion will reset before they can move forward
                     Invoke("ResetLeft", rowMatchDelay);
                 }
-                else
-                {
-                    leftBackStarted = true;
+                leftBackStarted = true;
 
-                    Invoke("ResetBackLeft", rowFinishDelay);
-                }
+                Invoke("ResetBackLeft", rowFinishDelay);
             }
         }
     }
@@ -319,12 +356,9 @@ public class DetectRowing : MonoBehaviour
 
                     Invoke("ResetBackRight", rowMatchDelay);
                 }
-                else
-                {
-                    rightStarted = true;
+                rightStarted = true;
 
-                    Invoke("ResetRight", rowFinishDelay);
-                }
+                Invoke("ResetRight", rowFinishDelay);
             }
         }
     }
@@ -345,12 +379,9 @@ public class DetectRowing : MonoBehaviour
 
                     Invoke("ResetRight", rowMatchDelay);
                 }
-                else
-                {
-                    rightBackStarted = true;
+                rightBackStarted = true;
 
-                    Invoke("ResetBackRight", rowFinishDelay);
-                }
+                Invoke("ResetBackRight", rowFinishDelay);
             }
         }
     }
@@ -388,8 +419,10 @@ public class DetectRowing : MonoBehaviour
     {
         if (GameRunning() && !knockback)
         {
+            ResetLeft();
             Quaternion newRotation = Quaternion.Euler(0, transform.eulerAngles.y + rotationAmount, 0);
             StartCoroutine(RotationLerp(newRotation, rotationTime));
+            rowSounds[2].Play();
         }
     }
 
@@ -397,8 +430,10 @@ public class DetectRowing : MonoBehaviour
     {
         if (GameRunning() && !knockback)
         {
+            ResetRight();
             Quaternion newRotation = Quaternion.Euler(0, transform.eulerAngles.y - rotationAmount, 0);
             StartCoroutine(RotationLerp(newRotation, rotationTime));
+            rowSounds[3].Play();
         }
     }
 

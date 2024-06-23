@@ -31,7 +31,6 @@ public class MainMenu : MonoBehaviour
 
     public void Start()
     {
-        IntroInfo.PerformIntro = false;
         startMenu.SetActive(true);
         levelMenu.SetActive(false);
         settingsMenu.SetActive(false);
