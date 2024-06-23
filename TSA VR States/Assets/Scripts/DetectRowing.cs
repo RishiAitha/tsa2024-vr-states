@@ -431,8 +431,8 @@ public class DetectRowing : MonoBehaviour
         rightStartBody.velocity = myRB.velocity;
         rightEndBody.velocity = myRB.velocity;
         boatBody.velocity = myRB.velocity;
-        //leftPaddleBody.velocity = myRB.velocity;
-        //rightPaddleBody.velocity = myRB.velocity;
+        leftPaddleBody.velocity = myRB.velocity;
+        rightPaddleBody.velocity = myRB.velocity;
     }
 
     private void TurnRight()
