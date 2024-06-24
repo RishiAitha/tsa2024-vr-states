@@ -881,8 +881,32 @@ MonoBehaviour:
   rotationAmount: 12.5
   rotationTime: 0.5
   turnDelay: 0.1
-  directionSwapDelay: 0
+  leftTrigger:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Left Trigger
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 7a492d71-d67f-4d5b-9526-a3e2faab74af
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  rightTrigger:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Right Trigger
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: b9ddb732-b260-4722-a1b1-b649c2bc52b0
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
   movingForwards: 0
+  pressingTrigger: 0
   waterVelocity: 0.5
   grabbingLeftPaddle: 0
   grabbingRightPaddle: 0
@@ -894,6 +918,7 @@ MonoBehaviour:
   knockbackTime: 0
   knockbackForce: 0
   rowPoints: []
+  directionArrow: {fileID: 0}
   rowSounds: []
 --- !u!114 &475722099
 MonoBehaviour:
@@ -1091,7 +1116,7 @@ Transform:
   m_GameObject: {fileID: 475722096}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -3.286}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

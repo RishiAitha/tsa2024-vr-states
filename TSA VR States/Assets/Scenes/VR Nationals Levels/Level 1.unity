@@ -6636,7 +6636,7 @@ PrefabInstance:
     - target: {fileID: 5166534620766727369, guid: 79f0dabf2d0d9274abbdc58fbfcb85e7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.2
+      value: -1.1
       objectReference: {fileID: 0}
     - target: {fileID: 5166534620766727369, guid: 79f0dabf2d0d9274abbdc58fbfcb85e7,
         type: 3}
@@ -13613,6 +13613,11 @@ PrefabInstance:
         type: 3}
       propertyPath: levelTime
       value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5723751226175728702, guid: 33fd938d6a81f664b8810b39b2660c45,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.15
       objectReference: {fileID: 0}
     - target: {fileID: 5723751226175728702, guid: 33fd938d6a81f664b8810b39b2660c45,
         type: 3}
