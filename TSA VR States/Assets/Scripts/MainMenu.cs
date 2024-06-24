@@ -59,6 +59,19 @@ public class MainMenu : MonoBehaviour
         if (!IntroInfo.PerformIntro)
         {
             origin.transform.position = Vector3.zero;
+            for (int i = 0; i < introObjects.Length; i++)
+            {
+                introObjects[i].GetComponent<Animator>().enabled = false;
+                Vector3 objPos = introObjects[i].transform.position;
+                if (i < introObjects.Length - 1)
+                {
+                    introObjects[i].transform.position = new Vector3(objPos.x, -2f, objPos.z);
+                }
+                else
+                {
+                    introObjects[i].transform.position = new Vector3(objPos.x, 1f, objPos.z);
+                }
+            }
         }
 
         FindObjectOfType<FadeScreen>().FadeIn();
@@ -98,22 +111,6 @@ public class MainMenu : MonoBehaviour
                 }
 
                 yield return null;
-            }
-        }
-        else
-        {
-            for (int i = 0; i < introObjects.Length; i++)
-            {
-                introObjects[i].GetComponent<Animator>().enabled = false;
-                Vector3 objPos = introObjects[i].transform.position;
-                if (i < introObjects.Length - 1)
-                {
-                    introObjects[i].transform.position = new Vector3(objPos.x, -2f, objPos.z);
-                }
-                else
-                {
-                    introObjects[i].transform.position = new Vector3(objPos.x, 1f, objPos.z);
-                }
             }
         }
     }
