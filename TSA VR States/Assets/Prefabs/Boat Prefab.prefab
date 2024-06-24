@@ -313,9 +313,9 @@ MonoBehaviour:
   m_ReinitializeDynamicAttachEverySingleGrab: 1
   m_AttachEaseInTime: 0.15
   m_MovementType: 0
-  m_VelocityDamping: 1
+  m_VelocityDamping: 0.25
   m_VelocityScale: 1
-  m_AngularVelocityDamping: 1
+  m_AngularVelocityDamping: 0.25
   m_AngularVelocityScale: 1
   m_TrackPosition: 1
   m_SmoothPosition: 0
@@ -5192,9 +5192,9 @@ MonoBehaviour:
   m_ReinitializeDynamicAttachEverySingleGrab: 1
   m_AttachEaseInTime: 0.15
   m_MovementType: 0
-  m_VelocityDamping: 1
+  m_VelocityDamping: 0.25
   m_VelocityScale: 1
-  m_AngularVelocityDamping: 1
+  m_AngularVelocityDamping: 0.25
   m_AngularVelocityScale: 1
   m_TrackPosition: 1
   m_SmoothPosition: 0
@@ -10369,7 +10369,7 @@ MonoBehaviour:
   currentVelocity: 0
   rotationAmount: 12.5
   rotationTime: 0.5
-  turnDelay: 0.25
+  turnDelay: 0.35
   leftTrigger:
     m_UseReference: 1
     m_Action:
